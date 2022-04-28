@@ -1,3 +1,10 @@
 from django.db import models
 
-# Create your models here.
+class Post(models.Model):
+
+    slug = models.SlugField()
+    text = models.TextField()
+    date = models.DateField(auto_now_add = True)
+    # grupul din care face parte
+    # author
+    # media

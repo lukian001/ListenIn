@@ -1,10 +1,6 @@
-from django.http import HttpResponse
+from django.shortcuts import render
+from posts.models import Post
 
 def homepage(request):
-    return HttpResponse('home')
-
-def login(request):
-    return HttpResponse('login')
-
-def register(request):
-    return HttpResponse('register')
+    posts = Post.objects.all().order_by('date')
+    return render(request, 'main_page.html', {'posts' : posts})

@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <meta charset = "utf-8">
+        <title> ListenIn </title>
+    </head>
+    <body>
+        <h1> Main Page </h1>
+        <div class = "posts">
+            {% for post in posts %}
+                <div class = "post">
+                    <h2>{{ post.text }}</h2>
+                    <p>{{ post.date }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </body>
+</html>
