@@ -1,17 +1,22 @@
-<html>
-    <head>
-        <meta charset = "utf-8">
-        <title> ListenIn </title>
-    </head>
-    <body>
+{% extends 'base_layout.html' %}
+
+{% block title %}
+    <title> ListenIn </title>
+{% endblock %}
+
+{% block content %}
         <h1> Main Page </h1>
         <div class = "posts">
             {% for post in posts %}
                 <div class = "post">
-                    <h2>{{ post.text }}</h2>
-                    <p>{{ post.date }}</p>
+                    <div class = "author">
+                        <a href="{% url 'accounts:user_account' username=post.owner.username %}"><p>{{ post.owner.first_name }} {{ post.owner.last_name }} wrote: </p></a>
+                    </div>
+                    <div class = "post_content" onclick="location.href = '{% url 'posts:post_details' slug=post.slug %}'" style="cursor: pointer">
+                        <p>{{ post.text }}</p>
+                        <p>{{ post.date }}</p>
+                    </div>
                 </div>
             {% endfor %}
         </div>
-    </body>
-</html>
+{% endblock %}
