@@ -1,16 +1,18 @@
-{#{& load static from staticfiles &}#}
+{% load static %}
+
 <html>
     <head>
         <meta charset = "utf-8">
+
         {% block title %}
         {% endblock %}
 
-{#        <link rel = "stylesheet" href = "{% static 'styles.css' %}">#}
-
+        <link rel = "stylesheet" href = "{% static 'styles.css' %}">
     </head>
     <body>
         <div class = "wrapper">
-            <h1><a href = "{% url 'homepage' %}">ListenIn</a></h1>
+            <a href = "{% url 'homepage' %}"><img src="{% static 'logo_title.png' %}"></a>
+            <h1></h1>
             {% block content %}
             {% endblock %}
         </div>

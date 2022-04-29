@@ -2,8 +2,10 @@
 
 {% block content %}
     <h1> Sign Up </h1>
-    <form class = "site-form" action = "/account/user.html" method="post">
-        {{ form }}
+    <form class = "site-form" action = "/account/signup/" method="post">
+        {% csrf_token %}
+        {{ user_form }}
+        {{ profile_form }}
         <input type = "submit" value = "Sign Up">
     </form>
     <button onclick="location.href = '{% url 'accounts:login' %}'">Log In</button>
