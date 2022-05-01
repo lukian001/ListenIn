@@ -16,15 +16,15 @@ class Profile(models.Model):
     User._meta.get_field('email')._nullable = False
     User._meta.get_field('first_name')._nullable = False
     User._meta.get_field('last_name')._nullable = False
+
     User._meta.get_field('first_name')._blank = False
     User._meta.get_field('last_name')._blank = False
-    # TODO: creat alt user =)
+
     User._meta.get_field('email')._unique = True
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     birthdate = models.DateField(null=True, blank=True)
     description = models.TextField()
-    # imageUrl =
 
 
 @receiver(post_save, sender=User)
@@ -34,6 +34,8 @@ def create_user_profile(sender, instance, created, **kwargs):
         Group.objects.create(name="{}{}{}".format(instance.id, instance.username, instance.id))
         group = Group.objects.get(name="{}{}{}".format(instance.id, instance.username, instance.id))
         group.groupprofile.owner = instance
+        group.groupprofile.name = "Feed"
+        group.groupprofile.is_feed = True
         group.user_set.add(instance)
         group.save()
 
@@ -41,6 +43,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+
 
 @receiver(pre_delete, sender=User)
 def delete_user_profile(sender, instance, **kwargs):

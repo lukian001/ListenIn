@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import Post
 from django.contrib.auth.models import User
+from posts.forms import CreatePostForm
 
 def article_page(request, slug):
     post = Post.objects.get(slug = slug)
@@ -12,3 +13,8 @@ def article_page(request, slug):
 
     return render(request, 'posts/post.html', {'post' : post, #
                                                'owner' : owner})
+
+
+def create_post(request):
+    if request.method == 'POST':
+        post_form = CreatePostForm(request.POST)
