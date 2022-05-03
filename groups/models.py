@@ -23,9 +23,8 @@ class GroupProfile(models.Model):
 def create_group_profile(sender, instance, created, **kwargs):
     if created:
         GroupProfile.objects.create(group=instance)
-        group_profile = GroupProfile.objects.get(group=instance)
-        group_profile.name = group_profile.group.name
-        group_profile.save()
+        instance.groupprofile.name = instance.name
+        instance.save()
 
 
 @receiver(post_save, sender=Group)
