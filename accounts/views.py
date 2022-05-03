@@ -48,6 +48,7 @@ def user_view(request, username):
     else:
         return render(request, 'error_page.html')
 
+
 def logout_view(request):
     if request.method == 'POST':
         logout(request)

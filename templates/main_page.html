@@ -10,11 +10,11 @@
         </script>
         <h1> Main Page </h1>
         <div class = "posts">
-            <form class = "site-form" action = "{% url 'posts:create_post' %}" method="post">
-                {% csrf_token %}
-                {{ post_form.as_table }}
-                <input type = "submit" value = "Post">
-            </form>
+{#            <form class = "site-form" action = "{% url 'posts:create_post' %}" method="post">#}
+{#                {% csrf_token %}#}
+{#                {{ post_form.as_table }}#}
+{#                <input type = "submit" value = "Post">#}
+{#            </form>#}
             {% for post in posts %}
                 <div class = "post">
                     <div class = "author">

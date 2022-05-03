@@ -1,3 +1,41 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
 body {
     background: #2b2b2b;
 }
+
+header.wrapper {
+    background: #6521fe;
+}
+
+ul.navbar {
+    list-style-type: none;
+}
+
+li.element {
+    float: left;
+}
+
+a.element-href {
+    display: block;
+    padding: 8px;
+}
+
+div.user-button {
+    align-items: center;
+}
+
+.user-profile-name-in-button {
+    display: inline;
+    font-size: 24px;
+}
+
+.user-profile-pic-in-button {
+    display: inline;
+    width: 35px;
+    height: 35px;
+}
+

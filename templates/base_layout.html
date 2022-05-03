@@ -12,14 +12,27 @@
     </head>
     <body>
         <header class = "wrapper">
-            <a href = "{% url 'homepage' %}"><img src="{% static 'logo_title.png' %}"></a>
-            {% if request.user.is_authenticated %}
-                <form class = "logout_user" action="{% url 'accounts:logout' %}" method="POST">
-                    {% csrf_token %}
-                    <input type = "submit" value="Log Out">
-                </form>
-                <p id = "id_username">USERNAME PLACEHOLDER</p>
-            {% endif %}
+            <ul class = "navbar">
+                <li class = "element">
+                    <a href = "{% url 'homepage' %}"><img src="{% static 'logo_title.png' %}"></a>
+{#                    <a  href="#">Ceva1</a>#}
+                </li>
+                <li class = "element">
+                    <div class = "user-button">
+                        <img class = "user-profile-pic-in-button" src="{{ request.user.profile.avatar.url }}">
+                        <p class = "user-profile-name-in-button">{{ request.user.first_name }}</p>
+                    </div>
+                </li>
+                <li class = "element">
+                    <a href = "{% url 'groups:create_group' %}">Create group</a>
+                </li>
+            </ul>
+{#                {% if request.user.is_authenticated %}#}
+{#                    <form class = "logout_user" action="{% url 'accounts:logout' %}" method="POST">#}
+{#                        {% csrf_token %}#}
+{#                        <input type = "submit" value="Log Out">#}
+{#                    </form>#}
+{#                {% endif %}#}
         </header>
         <div class = "wrapper">
             {% block content %}
