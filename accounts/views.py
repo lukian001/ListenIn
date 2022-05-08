@@ -18,26 +18,27 @@ def login_view(request):
             login(request, user)
             return redirect('homepage')
     else:
+        signup_form = CreateUserForm()
         user_form = AuthenticationForm()
-    return render(request, 'accounts/login.html', {'user_form': user_form})
+    return render(request, 'accounts/login.html', {'user_form': user_form,
+                                                   'signup_form': signup_form})
 
 
 def register_view(request):
-    if request.user.is_authenticated:
-        return redirect('homepage')
-
     if request.method == 'POST':
-        user_form = CreateUserForm(request.POST)
+        signup_form = CreateUserForm(request.POST)
 
-        user_form.fields['email'].required = True
+        signup_form.fields['email'].required = True
 
-        if user_form.is_valid():
-            user = user_form.save()
+        if signup_form.is_valid():
+            user = signup_form.save()
             login(request, user)
-            return redirect('accounts:user_account', username=request.POST['username'])
-    else:
-        user_form = CreateUserForm()
-    return render(request, 'accounts/signup.html', {'user_form': user_form})
+            return redirect('accounts:user_account', user.username)
+        else:
+            user_form = AuthenticationForm()
+            return render(request, 'accounts/login.html', {'user_form': user_form,
+                                                           'signup_form': signup_form})
+    return redirect('accounts:login')
 
 
 def user_view(request, username):
@@ -50,6 +51,5 @@ def user_view(request, username):
 
 
 def logout_view(request):
-    if request.method == 'POST':
-        logout(request)
+    logout(request)
     return redirect('accounts:login')

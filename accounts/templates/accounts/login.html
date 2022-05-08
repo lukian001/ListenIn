@@ -1,11 +1,10 @@
 {% extends 'base_layout.html' %}
 
 {% block content %}
-    <h1> Log In </h1>
-    <form class = "site-form" action = "{% url 'accounts:login' %}" method="post">
+    <h1> Sign Up </h1>
+    <form class = "site-form" action = "{% url 'accounts:signup' %}" method="post">
         {% csrf_token %}
-        {{ user_form }}
-        <input type = "submit" value = "Log In">
+        {{ signup_form }}
+        <input type = "submit" value = "Sign Up">
     </form>
-    <button onclick="location.href = '{% url 'accounts:signup' %}'">Sign Up</button>
 {% endblock %}

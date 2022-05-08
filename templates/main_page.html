@@ -5,30 +5,14 @@
 {% endblock %}
 
 {% block content %}
-        <script>
-            document.getElementById("id_username").innerHTML = '{{ request.user.first_name }}'
-        </script>
-        <h1> Main Page </h1>
-        <div class = "posts">
-{#            <form class = "site-form" action = "{% url 'posts:create_post' %}" method="post">#}
-{#                {% csrf_token %}#}
-{#                {{ post_form.as_table }}#}
-{#                <input type = "submit" value = "Post">#}
-{#            </form>#}
-            {% for post in posts %}
-                <div class = "post">
-                    <div class = "author">
-                        {% if post.host_group.groupprofile.is_feed %}
-                            <a href="{% url 'accounts:user_account' username=post.owner.username %}"><p>{{ post.owner.first_name }} {{ post.owner.last_name }} wrote: </p></a>
-                        {% else %}
-                            <a href="{% url 'accounts:user_account' username=post.owner.username %}"><p>{{ post.owner.first_name }} {{ post.owner.last_name }} wrote in {{ post.group.name }}: </p></a>
-                        {% endif %}
-                    </div>
-                    <div class = "post_content" onclick="location.href = '{% url 'posts:post_details' slug=post.slug %}'" style="cursor: pointer">
-                        <p>{{ post.text }}</p>
-                        <p>{{ post.date }}</p>
-                    </div>
+        <div style="border: 2px solid red; border-radius: 4px; overflow-y: auto; word-break: normal;" class="col-sm-10">
+            <div class="vstack gap-3">
+                <div class = "bg-light border">
+
                 </div>
-            {% endfor %}
+                {% for post in posts %}
+                    <div class="bg-light border">{{ post.text }}</div>
+                {% endfor %}
+            </div>
         </div>
 {% endblock %}
