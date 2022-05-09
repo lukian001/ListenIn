@@ -1,10 +1,56 @@
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>{{ user.first_name }} {{ user.last_name }} | ListenIn </title>
-    </head>
+{% extends 'base_layout.html' %}
 
-    <body>
-        <h1>User page</h1>
-    </body>
-</html>
+{% block title %}
+    <title>
+    {{ user.first_name }} {{ user.last_name }} | ListenIn
+    </title>
+{% endblock %}
+
+{% block content %}
+    <div style="overflow-y: auto; border-radius: 4px; height: 100%; word-break: normal; margin-top: 10px" class="col-sm-2 bg-light border">
+        <h2 style = "text-align: center">Groups</h2>
+        <div class="list-group">
+            {% if request.user.username == user.username %}
+                <a class="list-group-item list-group-item-action" type="button" data-bs-toggle="modal" data-bs-target="#createGroupModal">+ Create group</a>
+            {% endif %}
+            {% for group in user.groups.all %}
+                {% if group.groupprofile.name != 'Feed' %}
+                    <a href="#" class="list-group-item list-group-item-action">{{ group.name }}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div style="border-radius: 4px; overflow-y: auto; word-break: normal;" class="col-sm-8">
+        <div class="container text-center">
+            <div class="row content" style="align-items: center">
+                <div style="border-radius: 4px; margin-top:50px;" class="col-sm-2 sidenav">
+                    <img src="{{ user.profile.avatar.url }}" height="200px">
+                </div>
+                <div style="border-radius: 4px; margin-top:50px; height:210px; padding: 60px 0; word-break: normal;" class="col-sm-9 sidenav">
+                    <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+                    <p>{{ user.profile.description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Create group</h5>
+                </div>
+                <div class="modal-body">
+                    <form class="create-post" action="{% url 'groups:create_group' %}" method="post" id="create-group-form">
+                        {% csrf_token %}
+                        {{ group_form }}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" form="create-group-form">Create group</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

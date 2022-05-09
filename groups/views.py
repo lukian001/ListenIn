@@ -8,9 +8,11 @@ def create_group(request):
         create_form = CreateGroupForm(request.POST)
         if create_form.is_valid():
             group = create_form.save()
-            group.groupprofile.name=group.name
+            group.groupprofile.name = group.name
             group.user_set.add(request.user)
-            return redirect('groups:group_page', group_name=group.name)
+            group.groupprofile.owner = request.user
+            group.save()
+            return redirect('accounts:user_account', username=request.user.username)
     else:
         create_form = CreateGroupForm()
     return render(request, 'groups/create_group.html', {'create_form': create_form})

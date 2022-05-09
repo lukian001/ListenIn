@@ -5,8 +5,8 @@
 {% endblock %}
 
 {% block content %}
-        <div style="border: 2px solid red; border-radius: 4px; overflow-y: auto; word-break: normal;" class="col-sm-10">
-            <div class="container-fluid bg-light border" style="margin-top: 20px">
+        <div style="border-radius: 4px; overflow-y: auto; word-break: normal;" class="col-sm-10">
+            <div class="container-fluid bg-light border" style="margin-top: 10px; border-radius: 4px;">
                 <!-- PARTEA DE MAKE A POST + POZA -->
                 <div style="height: 8%; align-items: center" class="row content">
                     <div style="padding:0px;" class="col-sm-1">
@@ -16,8 +16,8 @@
                     </div>
                     <div style="padding:0px;" class="col-sm-11">
                             <div style="height:100%" class="d-flex align-items-center">
-                                <div style="margin-left:20px; margin-right: 860px;" class="align-self-center">
-                                    <a href="#">How are you feeling? Tell your friends all about that!</a>
+                                <div style="margin-left:20px;" class="align-self-center">
+                                    <a type="button" data-bs-toggle="modal" data-bs-target="#createPostModal">How are you feeling? Tell your friends all about that!</a>
                                 </div>
                             </div>
                     </div>
@@ -25,8 +25,27 @@
             </div>
             <div style="margin-top: 20px;" class="vstack gap-3">
                 {% for post in posts %}
-                    <div class="bg-light border">{{ post.text }}</div>
+                    <div class="bg-light border" style="border-radius: 4px;">{{ post.text }}</div>
                 {% endfor %}
+            </div>
+        </div>
+
+        <div class="modal fade" id="createPostModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Create post</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form class="create-post" action="{% url 'posts:create_post' %}" method="post" id="create-post-form">
+                            {% csrf_token %}
+                            {{ post_form }}
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" form="create-post-form">Create post</button>
+                    </div>
+                </div>
             </div>
         </div>
 {% endblock %}

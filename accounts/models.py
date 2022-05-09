@@ -50,3 +50,10 @@ def save_user_profile(sender, instance, **kwargs):
 def delete_user_profile(sender, instance, **kwargs):
     group = Group.objects.get(name="{}{}{}".format(instance.id, instance.username, instance.id))
     group.delete()
+
+
+class FriendRequest(models.Model):
+    user_from = models.ForeignKey(User, on_delete=models.CASCADE, related_name='From')
+    user_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name='To')
+    accepted = models.BooleanField(default=False)
+    declined = models.BooleanField(default=False)
