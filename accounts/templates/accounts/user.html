@@ -34,15 +34,20 @@
         </div>
 
 
-        <form class = "add-friend d-flex" method = "post" action = "{% url 'accounts:add_friend' user_to_username=user%}" id = "friend-request">
+        <form class = "add-friend d-flex" method = "post" action = "{% url 'accounts:add_friend' user_to_username=user %}" id = "friend-request">
             {% csrf_token %}
             {% if request.user != user %}
                 {% if is_friend == False and request_sent == False %}
                     <button type = "submit" form="friend-request" class="btn btn-lg btn-primary">Add friend</button>
+                {% elif request_sent == True %}
+                    <button type = "submit" class="btn btn-lg btn-primary" disabled>Friend request sent</button>
                 {% else %}
-                    <button type = "submit" form="friend-request" class="btn btn-lg btn-primary" disabled>Friend request sent</button>
+                    <button type = "submit" form="delete-friend" class="btn btn-lg btn-primary">Remove friend</button>
                 {% endif %}
             {% endif %}
+        </form>
+        <form class = "remove-friend" method="post" action = "{% url 'accounts:remove_friend' user_to_username=user %}" id = "delete-friend">
+            {% csrf_token %}
         </form>
     </div>
 

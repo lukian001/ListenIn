@@ -47,8 +47,11 @@ def register_view(request):
 def user_view(request, username):
     if User.objects.filter(username=username).exists():
         user = User.objects.get(username=username)
-        is_friend = user.groups.filter(name=str(request.user.id) + request.user.username + str(request.user.id)).exists()
-        request_sent = FriendRequest.objects.filter(user_from=request.user, user_to=user).exists() or FriendRequest.objects.filter(user_from=user, user_to=request.user).exists()
+        is_friend = user.groups.filter(
+            name=str(request.user.id) + request.user.username + str(request.user.id)).exists()
+        request_sent = FriendRequest.objects.filter(user_from=request.user,
+                                                    user_to=user).exists() or FriendRequest.objects.filter(
+            user_from=user, user_to=request.user).exists()
         group_form = CreateGroupForm()
         return render(request, 'accounts/user.html', {'user': user,
                                                       'group_form': group_form,
@@ -69,4 +72,30 @@ def add_friend(request, user_to_username):
         user_to = User.objects.get(username=user_to_username)
         friend_request = FriendRequest(user_from=request.user, user_to=user_to)
         friend_request.save()
+    return redirect('accounts:user_account', username=user_to_username)
+
+
+def accept_friend(request, request_id):
+    if request.method == "POST":
+        fr = FriendRequest.objects.get(id=request_id)
+        user_from = fr.user_from
+        user_to = fr.user_to
+        user_from.groups.all()[0].user_set.add(user_to)
+        user_to.groups.all()[0].user_set.add(user_from)
+        fr.delete()
+    return render(request, 'main_page.html')
+
+
+def decline_friend(request, request_id):
+    if request.method == "POST":
+        fr = FriendRequest.objects.get(id=request_id)
+        fr.delete()
+    return render(request, 'main_page.html')
+
+
+def remove_friend(request, user_to_username):
+    if request.method == 'POST':
+        user = User.objects.get(username=user_to_username)
+        user.groups.all()[0].user_set.remove(request.user)
+        request.user.groups.all()[0].user_set.remove(user)
     return redirect('accounts:user_account', username=user_to_username)

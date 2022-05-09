@@ -66,11 +66,34 @@
             </div>
             <div class="offcanvas-body">
                 <div>
-                    {% for friend_request in request.user.To.all %}
-                        <div>
-                            <p>{{ friend_request.user_from.get_full_name }} sent you a friend request! </p>
-                        </div>
-                    {% endfor %}
+                    <li class="list-group-item">
+                        {% for friend_request in request.user.To.all %}
+                            <div style="border-radius: 4px;word-break: normal;">
+                                <img style="height: 40px; width:40px;margin:10px;" src="{{ friend_request.user_from.profile.avatar.url }}">
+                                <a href="{% url 'accounts:user_account' username=friend_request.user_from.username %}">{{ friend_request.user_from.get_full_name }}</a>
+                                <p style="display: inline">wants to be friends with you!</p>
+                                <p style="margin-left:10px;"><br>How will you respond?</p>
+                                    <form id = "accept-friend-request" method="post" action="{% url 'accounts:accept_friend_request' request_id=friend_request.id %}">
+                                        {% csrf_token %}
+                                    </form>
+                                    <form id = "decline-friend-request" method="post" action="{% url 'accounts:decline_friend_request' request_id=friend_request.id %}">
+                                            {% csrf_token %}
+                                    </form>
+                                <button form = "accept-friend-request" style="margin:10px;" type="submit" class="btn btn-success">Accept</button>
+                                <button form = "decline-friend-request" style="margin:10px;" type="submit" class="btn btn-danger">Reject</button>
+                            </div>
+                        {% endfor %}
+                    </li>
+                    <li class="list-group-item">
+                        {% for notification in request.user.notification_set.all %}
+                            <div style="border-radius: 4px;word-break: normal;">
+{#                                <img style="height: 40px; width:40px;margin:10px;" src="{{ friend_request.user_from.avatar.url }}">#}
+{#                                <a href="{% url 'accounts:user_account' username=friend_request.user_from.username %}">{{ friend_request.user_from.username }}</a>#}
+                                <p style="display: inline">{{ notification.text }}</p>
+{#                                <p style="margin-left:10px;"><br>How will you respond?</p>#}
+                            </div>
+                        {% endfor %}
+                    </li>
                 </div>
             </div>
         </div>
