@@ -2,7 +2,7 @@
 
 {% block title %}
     <title>
-    {{ user.first_name }} {{ user.last_name }} | ListenIn
+    {{ user.get_full_name }} | ListenIn
     </title>
 {% endblock %}
 
@@ -27,13 +27,24 @@
                     <img src="{{ user.profile.avatar.url }}" height="200px">
                 </div>
                 <div style="border-radius: 4px; margin-top:50px; height:210px; padding: 60px 0; word-break: normal;" class="col-sm-9 sidenav">
-                    <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+                    <h1>{{ user.get_full_name }}</h1>
                     <p>{{ user.profile.description }}</p>
                 </div>
             </div>
         </div>
-    </div>
 
+
+        <form class = "add-friend d-flex" method = "post" action = "{% url 'accounts:add_friend' user_to_username=user%}" id = "friend-request">
+            {% csrf_token %}
+            {% if request.user != user %}
+                {% if is_friend == False and request_sent == False %}
+                    <button type = "submit" form="friend-request" class="btn btn-lg btn-primary">Add friend</button>
+                {% else %}
+                    <button type = "submit" form="friend-request" class="btn btn-lg btn-primary" disabled>Friend request sent</button>
+                {% endif %}
+            {% endif %}
+        </form>
+    </div>
 
     <div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
