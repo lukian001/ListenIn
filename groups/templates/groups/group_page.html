@@ -3,3 +3,161 @@
 {% block title %}
     <title> Group: {{ group.name }}</title>
 {% endblock %}
+
+{% block content %}
+    <div class="jumbotron">
+        <div class="container text-center">
+{#            <img style="height:120px;width:120px;padding:10px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQWM06PzKkLtI0voz9Mz8IlbCvj2IkOVKidA&usqp=CAU">#}
+            <h3>{{ group.name }}</h3>
+            <p>{{ group.groupprofile.description }}</p>
+        </div>
+    </div>
+
+    <div style="border-radius: 4px; height: 100%; word-break: normal; margin-top: 10px" class="col-sm-3 bg-light border">
+                        <h2 style = "text-align: center">Online members</h2>
+                    <div style="border-style: solid; border-color: red;height: 100%;" class="container-fluid">
+                        <div style="height: 100%; overflow-y: auto;" class="row content">
+                            <div style="border-style: solid; border-color: red; border-radius: 4px; height: auto; word-break: normal; margin-top: 10px;" class="col-sm-4">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;"src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                </ul>
+                            </div>
+                            <div style="border-style: solid; border-color: red; border-radius: 4px; height: auto; word-break: normal; margin-top: 10px;" class="col-sm-4">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;"src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                </ul>
+                            </div>
+                            <div style="height: auto; word-break: normal; margin-top: 10px;" class="col-sm-4">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;"src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img style="height:70px;width:70px;" src="https://i.kym-cdn.com/photos/images/facebook/001/793/336/d01.png">
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+               </div>
+
+    <div style="overflow-y: auto; border-radius: 4px; height: 100%; word-break: normal; margin-top: 10px" class="col-sm-7 bg-light border">
+                        <h2 style = "text-align: center">Feed</h2>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">p0st1</li>
+                            <li class="list-group-item">post2</li>
+                            <li class="list-group-item">post3</li>
+                            <li class="list-group-item">post4</li>
+                            <li class="list-group-item">post5</li>
+                        </ul>
+                </div>
+{% endblock %}

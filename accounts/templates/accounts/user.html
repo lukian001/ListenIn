@@ -15,7 +15,7 @@
             {% endif %}
             {% for group in user.groups.all %}
                 {% if group.groupprofile.name != 'Feed' %}
-                    <a href="#" class="list-group-item list-group-item-action">{{ group.name }}</a>
+                    <a href="{% url 'groups:group_page' group_name=group.name %}" class="list-group-item list-group-item-action">{{ group.name }}</a>
                 {% endif %}
             {% endfor %}
         </div>
@@ -51,7 +51,7 @@
         </form>
     </div>
 
-    <div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="img_modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">

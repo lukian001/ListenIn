@@ -6,7 +6,15 @@ from posts.forms import CreatePostForm
 def homepage(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
-            posts = Post.objects.all().order_by('date')
+            groups = request.user.groups
+
+            posts = []
+            for group in groups.all():
+                for post in group.post_set.all()[::1]:
+                    posts.append(post)
+
+            posts.sort(key=lambda pst: pst.date, reverse=True)
+
             post_form = CreatePostForm()
             post_form.fields['host_group'].queryset = request.user.groups
             return render(request, 'main_page.html', {'posts': posts,
