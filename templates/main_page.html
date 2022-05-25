@@ -30,7 +30,7 @@
                         <div class="row no-gutters">
                             {% if post.media %}
                                 {% if post.type == 1 %}
-                                    <div class="card-body">
+                                    <div style = "" class="card-body">
                                         <h5 class="card-title"><a href="{% url 'accounts:user_account' username=post.owner.username %}">{{ post.owner.get_full_name }}</a>
                                         posted{% if post.host_group.groupprofile.name == "Feed"%}:
                                         {% else %} in <a href="{% url "groups:group_page" group_name=post.host_group.name %}">{{ post.host_group.name }}</a>
@@ -111,25 +111,6 @@
                                     </div>
                                 </div>
                             {% endif %}
-{#                            <div class="col-10">#}
-{#                                <div class="card-body">#}
-{#                                    <h5 class="card-title"><a href="{% url 'accounts:user_account' username=post.owner.username %}">{{ post.owner.get_full_name }}</a>#}
-{#                                    posted{% if post.host_group.groupprofile.name == "Feed"%}:#}
-{#                                    {% else %} in <a href="{% url "groups:group_page" group_name=post.host_group.name %}">{{ post.host_group.name }}</a>#}
-{#                                        {% endif %}</h5>#}
-{#                                    <p class="card-text">{{ post.text }}</p>#}
-{#                                    {% if post.media %}#}
-{#                                        {% if post.type == 1 %}#}
-{#                                            <div class="col">#}
-{#                                                <audio controls>#}
-{#                                                    <source src="{{ post.media.url }}">#}
-{#                                                </audio>#}
-{#                                            </div>#}
-{#                                        {% endif %}#}
-{#                                    {% endif %}#}
-{#                                    <p class="card-text"><small class="text-muted">{{ post.date|timezone:"Europe/Bucharest" }}</small></p>#}
-{#                                </div>#}
-{#                            </div>#}
                         </div>
                     </div>
                 {% endfor %}

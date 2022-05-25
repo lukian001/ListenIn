@@ -11,6 +11,10 @@ def get_name(self):
 Group.add_to_class("__str__", get_name)
 
 
+def is_member(user, group):
+    return user.groups.filter(name=group.name).exists()
+
+
 class GroupProfile(models.Model):
     name = models.TextField(default="Feed")
     group = models.OneToOneField(Group, on_delete=models.CASCADE)

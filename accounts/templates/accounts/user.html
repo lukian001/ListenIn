@@ -1,4 +1,5 @@
 {% extends 'base_layout.html' %}
+{% load tz %}
 
 {% block title %}
     <title>
@@ -49,6 +50,98 @@
         <form class = "remove-friend" method="post" action = "{% url 'accounts:remove_friend' user_to_username=user %}" id = "delete-friend">
             {% csrf_token %}
         </form>
+
+        <div style="margin-top: 20px;" class="vstack gap-3">
+            {% for post in posts %}
+                <div class="card mb-3" style="width: 100%">
+                    <div class="row no-gutters">
+                        {% if post.media %}
+                            {% if post.type == 1 %}
+                                <div class="card-body">
+                                    <h5 class="card-title"><a href="{% url 'accounts:user_account' username=post.owner.username %}">{{ post.owner.get_full_name }}</a>
+                                    posted{% if post.host_group.groupprofile.name == "Feed"%}:
+                                    {% else %} in <a href="{% url "groups:group_page" group_name=post.host_group.name %}">{{ post.host_group.name }}</a>
+                                    {% endif %}</h5>
+                                    <p class="card-text">{{ post.text }}</p>
+                                        <div class="col">
+                                            <audio controls style="width: 100%">
+                                            <source src="{{ post.media.url }}">
+                                            </audio>
+                                        </div>
+                                    <p class="card-text"><small class="text-muted">{{ post.date|timezone:"Europe/Bucharest" }}</small></p>
+                                </div>
+                            {% endif %}
+                            {% if post.type == 2 %}
+                                <div class="col">
+                                    <video style = "height: auto; width: 240px" controls="controls" preload="preload">
+                                        <source src="{{ post.media.url }}" type="video/mp4">
+                                    </video>
+                                </div>
+                                <div class="col-10">
+                                <div class="card-body">
+                                    <h5 class="card-title"><a href="{% url 'accounts:user_account' username=post.owner.username %}">{{ post.owner.get_full_name }}</a>
+                                    posted{% if post.host_group.groupprofile.name == "Feed"%}:
+                                    {% else %} in <a href="{% url "groups:group_page" group_name=post.host_group.name %}">{{ post.host_group.name }}</a>
+                                    {% endif %}</h5>
+                                    <p class="card-text">{{ post.text }}</p>
+                                    <p class="card-text"><small class="text-muted">{{ post.date|timezone:"Europe/Bucharest" }}</small></p>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% if post.type == 3 %}
+                                <div class="col">
+                                    <img id="myImg" class="card-img" style = "height: 200px; width: 240px" src="{{ post.media.url }}">
+                                </div>
+                                <div id="myModal" class="img_modal">
+                                    <span class="close">&times;</span>
+                                    <img class="img_modal-content" id="img01">
+                                    <div id="caption"></div>
+                                </div>
+                                <div class="col-10">
+                                <div class="card-body">
+                                    <h5 class="card-title"><a href="{% url 'accounts:user_account' username=post.owner.username %}">{{ post.owner.get_full_name }}</a>
+                                    posted{% if post.host_group.groupprofile.name == "Feed"%}:
+                                    {% else %} in <a href="{% url "groups:group_page" group_name=post.host_group.name %}">{{ post.host_group.name }}</a>
+                                    {% endif %}</h5>
+                                    <p class="card-text">{{ post.text }}</p>
+                                    <p class="card-text"><small class="text-muted">{{ post.date|timezone:"Europe/Bucharest" }}</small></p>
+                                </div>
+                            </div>
+                            {% endif %}
+                            <script>
+                                const modal = document.getElementById("myModal");
+
+                                const img = document.getElementById("myImg");
+                                const modalImg = document.getElementById("img01");
+                                const captionText = document.getElementById("caption");
+                                img.onclick = function(){
+                                    modal.style.display = "block";
+                                    modalImg.src = this.src;
+                                    captionText.innerHTML = this.alt;
+                                }
+
+                                const span = document.getElementsByClassName("close")[0];
+
+                                span.onclick = function() {
+                                    modal.style.display = "none";
+                                }
+                            </script>
+                        {% else %}
+                            <div class="col-12">
+                                <div class="card-body">
+                                    <h5 class="card-title"><a href="{% url 'accounts:user_account' username=post.owner.username %}">{{ post.owner.get_full_name }}</a>
+                                    posted{% if post.host_group.groupprofile.name == "Feed"%}:
+                                    {% else %} in <a href="{% url "groups:group_page" group_name=post.host_group.name %}">{{ post.host_group.name }}</a>
+                                    {% endif %}</h5>
+                                    <p class="card-text">{{ post.text }}</p>
+                                    <p class="card-text"><small class="text-muted">{{ post.date|timezone:"Europe/Bucharest" }}</small></p>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 
     <div class="img_modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

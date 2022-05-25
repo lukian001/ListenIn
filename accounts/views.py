@@ -55,7 +55,8 @@ def user_view(request, username):
         group_form = CreateGroupForm()
         return render(request, 'accounts/user.html', {'user': user,
                                                       'group_form': group_form,
-                                                      'posts': Post.objects.filter(owner=user),
+                                                      'posts': Post.objects.filter(owner=user, host_group=user.groups.
+                                                                                   all()[0]).order_by('-date'),
                                                       'is_friend': is_friend,
                                                       'request_sent': request_sent})
     else:

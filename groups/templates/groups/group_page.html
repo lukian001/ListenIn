@@ -1,4 +1,5 @@
 {% extends 'base_layout.html' %}
+{% load tz %}
 
 {% block title %}
     <title> Group: {{ group.name }}</title>
@@ -7,12 +8,22 @@
 {% block content %}
     <div class="jumbotron">
         <div class="container text-center">
-{#            <img style="height:120px;width:120px;padding:10px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQWM06PzKkLtI0voz9Mz8IlbCvj2IkOVKidA&usqp=CAU">#}
             <h3>{{ group.name }}</h3>
             <p>{{ group.groupprofile.description }}</p>
         </div>
     </div>
 
+    <form class = "enter-group d-flex" method = "post" action = "{% url 'groups:enter_group' group_name=group.name %}" id = "enter-group">
+        {% csrf_token %}
+        {% if is_member %}
+            <button type = "submit" class = "btn btn-lg btn-primary" form = "leave-group">Leave group</button>
+        {% else %}
+            <button type = "submit" class = "btn btn-lg btn-primary" form = "enter-group">Enter group</button>
+        {% endif %}
+    </form>
+    <form class = "enter-group d-flex" method = "post" action = "{% url 'groups:leave_group' group_name=group.name %}" id = "leave-group">
+        {% csrf_token %}
+    </form>
     <div style="border-radius: 4px; height: 100%; word-break: normal; margin-top: 10px" class="col-sm-3 bg-light border">
                         <h2 style = "text-align: center">Online members</h2>
                     <div style="border-style: solid; border-color: red;height: 100%;" class="container-fluid">
@@ -151,13 +162,89 @@
                </div>
 
     <div style="overflow-y: auto; border-radius: 4px; height: 100%; word-break: normal; margin-top: 10px" class="col-sm-7 bg-light border">
-                        <h2 style = "text-align: center">Feed</h2>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">p0st1</li>
-                            <li class="list-group-item">post2</li>
-                            <li class="list-group-item">post3</li>
-                            <li class="list-group-item">post4</li>
-                            <li class="list-group-item">post5</li>
-                        </ul>
+        <h2 style = "text-align: center">Feed</h2>
+        <div style="margin-top: 20px;" class="vstack gap-3">
+            {% for post in posts %}
+                <div class="card mb-3" style="width: 100%">
+                    <div class="row no-gutters">
+                        {% if post.media %}
+                            {% if post.type == 1 %}
+                                <div class="card-body">
+                                    <h5 class="card-title"><a href="{% url 'accounts:user_account' username=post.owner.username %}">{{ post.owner.get_full_name }}</a>
+                                    posted:</h5>
+                                    <p class="card-text">{{ post.text }}</p>
+                                        <div class="col">
+                                            <audio controls style="width: 100%">
+                                            <source src="{{ post.media.url }}">
+                                            </audio>
+                                        </div>
+                                    <p class="card-text"><small class="text-muted">{{ post.date|timezone:"Europe/Bucharest" }}</small></p>
+                                </div>
+                            {% endif %}
+                            {% if post.type == 2 %}
+                                <div class="col">
+                                    <video style = "height: auto; width: 240px" controls="controls" preload="preload">
+                                        <source src="{{ post.media.url }}" type="video/mp4">
+                                    </video>
+                                </div>
+                                <div class="col-10">
+                                <div class="card-body">
+                                    <h5 class="card-title"><a href="{% url 'accounts:user_account' username=post.owner.username %}">{{ post.owner.get_full_name }}</a>
+                                    posted:</h5>
+                                    <p class="card-text">{{ post.text }}</p>
+                                    <p class="card-text"><small class="text-muted">{{ post.date|timezone:"Europe/Bucharest" }}</small></p>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% if post.type == 3 %}
+                                <div class="col">
+                                    <img id="myImg" class="card-img" style = "height: 200px; width: 240px" src="{{ post.media.url }}">
+                                </div>
+                                <div id="myModal" class="img_modal">
+                                    <span class="close">&times;</span>
+                                    <img class="img_modal-content" id="img01">
+                                    <div id="caption"></div>
+                                </div>
+                                <div class="col-10">
+                                <div class="card-body">
+                                    <h5 class="card-title"><a href="{% url 'accounts:user_account' username=post.owner.username %}">{{ post.owner.get_full_name }}</a>
+                                    posted:</h5>
+                                    <p class="card-text">{{ post.text }}</p>
+                                    <p class="card-text"><small class="text-muted">{{ post.date|timezone:"Europe/Bucharest" }}</small></p>
+                                </div>
+                            </div>
+                            {% endif %}
+                            <script>
+                                const modal = document.getElementById("myModal");
+
+                                const img = document.getElementById("myImg");
+                                const modalImg = document.getElementById("img01");
+                                const captionText = document.getElementById("caption");
+                                img.onclick = function(){
+                                    modal.style.display = "block";
+                                    modalImg.src = this.src;
+                                    captionText.innerHTML = this.alt;
+                                }
+
+                                const span = document.getElementsByClassName("close")[0];
+
+                                span.onclick = function() {
+                                    modal.style.display = "none";
+                                }
+                            </script>
+                        {% else %}
+                            <div class="col-12">
+                                <div class="card-body">
+                                    <h5 class="card-title"><a href="{% url 'accounts:user_account' username=post.owner.username %}">{{ post.owner.get_full_name }}</a>
+                                    posted:</h5>
+                                    <p class="card-text">{{ post.text }}</p>
+                                    <p class="card-text"><small class="text-muted">{{ post.date|timezone:"Europe/Bucharest" }}</small></p>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
