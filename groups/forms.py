@@ -6,3 +6,11 @@ class CreateGroupForm(forms.ModelForm):
     class Meta:
         model = Group
         fields = ['name']
+
+
+class ChangeGroupForm(forms.ModelForm):
+    description = forms.CharField(widget=forms.Textarea)
+
+    class Meta:
+        model = Group
+        fields = ['name']

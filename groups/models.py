@@ -15,6 +15,10 @@ def is_member(user, group):
     return user.groups.filter(name=group.name).exists()
 
 
+def is_admin(user, group):
+    return group.user_set.filter(id=user.id).exists()
+
+
 class GroupProfile(models.Model):
     name = models.TextField(default="Feed")
     group = models.OneToOneField(Group, on_delete=models.CASCADE)
