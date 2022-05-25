@@ -45,6 +45,8 @@
                 {% else %}
                     <button type = "submit" form="delete-friend" class="btn btn-lg btn-primary">Remove friend</button>
                 {% endif %}
+            {% else %}
+                <button type = "button" class="btn btn-lg btn-primary"  data-bs-toggle="modal" data-bs-target="#changeUserModal">Change data</button>
             {% endif %}
         </form>
         <form class = "remove-friend" method="post" action = "{% url 'accounts:remove_friend' user_to_username=user %}" id = "delete-friend">
@@ -162,4 +164,24 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="changeUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Change group info</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form class="site-form" action="{% url 'accounts:change_user' username=user.username %}" method="post" id="change-user-form">
+                            {% csrf_token %}
+                            {{ change_form }}
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" form="change-user-form">Change data</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 {% endblock %}

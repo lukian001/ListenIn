@@ -6,7 +6,7 @@ from posts.models import Post
 from groups.forms import CreateGroupForm
 from .models import FriendRequest
 
-from .forms import CreateUserForm
+from .forms import CreateUserForm, ChangeUserForm
 
 
 def login_view(request):
@@ -53,12 +53,20 @@ def user_view(request, username):
                                                     user_to=user).exists() or FriendRequest.objects.filter(
             user_from=user, user_to=request.user).exists()
         group_form = CreateGroupForm()
+        change_form = ChangeUserForm(initial={
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email': user.email,
+            'description': user.profile.description,
+            'media': user.profile.avatar
+        })
         return render(request, 'accounts/user.html', {'user': user,
                                                       'group_form': group_form,
                                                       'posts': Post.objects.filter(owner=user, host_group=user.groups.
                                                                                    all()[0]).order_by('-date'),
                                                       'is_friend': is_friend,
-                                                      'request_sent': request_sent})
+                                                      'request_sent': request_sent,
+                                                      'change_form': change_form})
     else:
         return render(request, 'error_page.html')
 
@@ -100,3 +108,17 @@ def remove_friend(request, user_to_username):
         user.groups.all()[0].user_set.remove(request.user)
         request.user.groups.all()[0].user_set.remove(user)
     return redirect('accounts:user_account', username=user_to_username)
+
+
+def change_user(request, username):
+    if request.method == "POST":
+        user = User.objects.get(username=username)
+        change_form = ChangeUserForm(request.POST)
+        if change_form.is_valid():
+            user.first_name = change_form.cleaned_data.get('first_name')
+            user.last_name = change_form.cleaned_data.get('last_name')
+            user.email = change_form.cleaned_data.get('email')
+            user.profile.description = change_form.cleaned_data.get('description')
+            user.profile.avatar = change_form.cleaned_data.get('media')
+            user.save()
+    return redirect('accounts:user_account', username=username)
