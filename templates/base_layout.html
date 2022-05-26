@@ -1,121 +1,157 @@
 {% load static %}
 
-<html>
+<html lang="">
     <head>
         <meta charset = "utf-8">
-
-        {% block title %}
-        {% endblock %}
+        <title>
+            {% block title %}
+            {% endblock %}
+        </title>
 
         <link rel = "icon" href = "{% static 'logo.png' %}" type = "image/x-icon">
         <link rel = "stylesheet" href = "{% static 'styles.css' %}">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
     </head>
 
     <style>
-.img_modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
-}
+        body {
+            background-color: #FFCDD2;
+        }
 
-.img_modal-content {
-  margin: auto;
-  display: block;
-  width: 80%;
-  max-width: 700px;
-}
+        .bg-black {
+            background-color: #000;
+        }
 
-#caption {
-  margin: auto;
-  display: block;
-  width: 80%;
-  max-width: 700px;
-  text-align: center;
-  color: #ccc;
-  padding: 10px 0;
-  height: 150px;
-}
+        #logo {
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+        }
 
-/* Add Animation - Zoom in the Modal */
-.img_modal-content, #caption {
-  animation-name: zoom;
-  animation-duration: 0.6s;
-}
+        .navbar-brand {
+            padding: 14px 20px;
+            font-size: 16px;
+        }
 
-@keyframes zoom {
-  from {transform:scale(0)}
-  to {transform:scale(1)}
-}
+        .navbar-nav {
+            width: 100%;
+        }
 
-/* The Close Button */
-.close {
-  position: absolute;
-  top: 15px;
-  right: 35px;
-  color: #f1f1f1;
-  font-size: 40px;
-  font-weight: bold;
-  transition: 0.3s;
-}
+        .nav-item {
+            padding: 6px 14px;
+            text-align: center;
+        }
 
-.close:hover,
-.close:focus {
-  color: #bbb;
-  text-decoration: none;
-  cursor: pointer;
-}
+        .nav-link {
+            padding-bottom: 10px;
+        }
 
-/* 100% Image Width on Smaller Screens */
-@media only screen and (max-width: 700px){
-  .modal-content {
-    width: 100%;
-  }
-}
+        .v-line {
+            background-color: gray;
+            width: 1px;
+            height: 20px;
+        }
+
+        .navbar-collapse.collapse.in {
+            display: block !important;
+        }
+
+        @media (max-width: 576px) {
+            .nav-item {
+                width: 100%;
+                text-align: left;
+            }
+
+            .v-line {
+                display: none;
+            }
+        }
+
+        .search{
+            margin-bottom: auto;
+            margin-top: 4px;
+            height: 35px;
+            background-color: #fff;
+            border-radius: 40px;
+            padding: 10px;
+        }
+
+        .search_input{
+            margin-top: -13px;
+            color: black;
+            border: 0;
+            outline: 0;
+            background: none;
+            width: 0;
+            caret-color:transparent;
+            line-height: 40px;
+            transition: width 0.4s linear;
+        }
+
+        .search .search_input{
+            padding: 0 10px;
+            width: 350px;
+            caret-color:red;
+            transition: width 0.4s linear;
+        }
+
+        .search:hover > .search_icon{
+            background: red;
+            color: #fff;
+        }
+
+        .search_icon{
+            height: 15px;
+            width: 15px;
+            float: right;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            color:white;
+            background-color:black;
+        }
+
+        a:link{
+            text-decoration:none;
+        }
     </style>
 
     <body>
     <!-- NAVBAR -->
-        <nav id="bordura" class="navbar navbar-expand-lg navbar-light bg-light border" style="height: 7%">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="{% url 'homepage' %}">
-                    <img src="{% static 'logo_title.png' %}" alt="" width="120" height="60" class="d-inline-block align-text-center">
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+        <div class="container-fluid px-0">
+            <nav class="navbar navbar-expand-sm navbar-dark bg-black py-0 px-0">
+                <a class="navbar-brand" href="{% url 'homepage' %}">&nbsp;&nbsp;&nbsp;listenIn</a>
+                <span class="v-line"></span>
+                <button class="navbar-toggler mr-3" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
                         {% if request.user.is_authenticated %}
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Hey, {{ request.user.first_name }}!
+                                    Hi, {{ request.user.first_name }}!
                                 </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="{% url 'accounts:user_account' username=request.user.username %}">See profile</a></li>
-                                    <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">Log Out</a> </li>
+                                <ul class="dropdown-menu bg-black" aria-labelledby="navbarDropdown">
+                                    <li><a style="color: gray" class="dropdown-item" href="{% url 'accounts:user_account' username=request.user.username %}">See profile</a></li>
+                                    <li><a style="color: gray" data-bs-toggle="offcanvas" href="#offcanvasExample"  class= "dropdown-item" role="button" aria-controls="offcanvasExample">Notifications</a></li>
+                                    <li><a style="color: gray" class="dropdown-item" href="{% url 'accounts:logout' %}">Log Out</a> </li>
                                 </ul>
                             </li>
-                        {% endif %}
-                    </ul>
-                    <div class="d-flex">
-                        {% if request.user.is_authenticated %}
-                            <form class="d-flex">
-                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                                <button class="btn btn-outline-success" type="submit">Search</button>
-                                <!-- BUTON PT OFFSCREEN -->
-                                <a class="btn btn-primary" style="padding:10px; {#  #}
-                                      margin-left:8px" data-bs-toggle="offcanvas" href="#offcanvasExample" {#  #}
-                                        role="button" aria-controls="offcanvasExample">Notifications</a>
-                            </form>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Groups TODO!!!!!</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Games TODO!!!!!</a>
+                            </li>
+                            <li class="nav-item">
+                                <div class="search">
+                                    <input class="search_input" type="text" name="" placeholder="Search here...">
+                                    <a href="#" class="search_icon"><i class="fa fa-search"></i></a>
+                                </div>
+                            </li>
                         {% else %}
                             <form class = "site-form" action = "{% url 'accounts:login' %}" method="post">
                                 {% csrf_token %}
@@ -123,47 +159,47 @@
                                 <input type = "submit" value = "Log In">
                             </form>
                         {% endif %}
-                    </div>
+                    </ul>
                 </div>
-            </div>
-        </nav>
+            </nav>
+        </div>
 
-        {# Notificari #}
-        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+        <div class="offcanvas offcanvas-start bg-black" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
             <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasExampleLabel">Notificarile tale</h5>
+                <h5 style="color: gray" class="offcanvas-title" id="offcanvasExampleLabel">Notifications</h5>
                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
                 <div>
-                    <li class="list-group-item">
-                        {% for friend_request in request.user.To.all %}
-                            <div style="border-radius: 4px;word-break: normal;">
-                                <img style="height: 40px; width:40px;margin:10px;" src="{{ friend_request.user_from.profile.avatar.url }}">
-                                <a href="{% url 'accounts:user_account' username=friend_request.user_from.username %}">{{ friend_request.user_from.get_full_name }}</a>
-                                <p style="display: inline">wants to be friends with you!</p>
-                                <p style="margin-left:10px;"><br>How will you respond?</p>
-                                    <form id = "accept-friend-request" method="post" action="{% url 'accounts:accept_friend_request' request_id=friend_request.id %}">
-                                        {% csrf_token %}
-                                    </form>
-                                    <form id = "decline-friend-request" method="post" action="{% url 'accounts:decline_friend_request' request_id=friend_request.id %}">
+                    {% if request.user.To.all.count > 0 %}
+                        <li class="list-group-item">
+                            {% for friend_request in request.user.To.all %}
+                                <div style="border-radius: 4px;word-break: normal;">
+                                    <img style="height: 40px; width:40px;margin:10px;" src="{{ friend_request.user_from.profile.avatar.url }}">
+                                    <a href="{% url 'accounts:user_account' username=friend_request.user_from.username %}">{{ friend_request.user_from.get_full_name }}</a>
+                                    <p style="display: inline">wants to be friends with you!</p>
+                                    <p style="margin-left:10px;"><br>How will you respond?</p>
+                                        <form id = "accept-friend-request" method="post" action="{% url 'accounts:accept_friend_request' request_id=friend_request.id %}">
                                             {% csrf_token %}
-                                    </form>
-                                <button form = "accept-friend-request" style="margin:10px;" type="submit" class="btn btn-success">Accept</button>
-                                <button form = "decline-friend-request" style="margin:10px;" type="submit" class="btn btn-danger">Reject</button>
-                            </div>
-                        {% endfor %}
-                    </li>
-                    <li class="list-group-item">
-                        {% for notification in request.user.notification_set.all %}
-                            <div style="border-radius: 4px;word-break: normal;">
-{#                                <img style="height: 40px; width:40px;margin:10px;" src="{{ friend_request.user_from.avatar.url }}">#}
-{#                                <a href="{% url 'accounts:user_account' username=friend_request.user_from.username %}">{{ friend_request.user_from.username }}</a>#}
-                                <p style="display: inline">{{ notification.text }}</p>
-{#                                <p style="margin-left:10px;"><br>How will you respond?</p>#}
-                            </div>
-                        {% endfor %}
-                    </li>
+                                        </form>
+                                        <form id = "decline-friend-request" method="post" action="{% url 'accounts:decline_friend_request' request_id=friend_request.id %}">
+                                                {% csrf_token %}
+                                        </form>
+                                    <button form = "accept-friend-request" style="margin:10px;" type="submit" class="btn btn-success">Accept</button>
+                                    <button form = "decline-friend-request" style="margin:10px;" type="submit" class="btn btn-danger">Reject</button>
+                                </div>
+                            {% endfor %}
+                        </li>
+                    {% endif %}
+                    {% if request.user.notification_set.all.count > 0 %}
+                        <li class="list-group-item" style="border-radius: 4px; margin-bottom: 2px">
+                            {% for notification in request.user.notification_set.all %}
+                                <div style="border-radius: 4px;word-break: normal;">
+                                    <p style="display: inline">{{ notification.text }}</p>
+                                </div>
+                            {% endfor %}
+                        </li>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -174,9 +210,8 @@
                 {% block content %}
                 {% endblock %}
 
-                <!-- PRIETENII -->
                 {% if request.user.is_authenticated %}
-                    <div style="overflow-y: auto; border-radius: 4px; height: 100%; word-break: normal; margin-top: 10px" class="col-sm-2 bg-light border">
+                    <div style="overflow-y: auto; border-radius: 4px; height: 100%; word-break: normal; margin-top: 10px;" class="col-sm-2 bg-light border">
                         <h2 style = "text-align: center">Friends</h2>
                         <div class="list-group">
                             {% for friend in request.user.groups.all.0.user_set.all %}
@@ -189,10 +224,7 @@
                 {% endif %}
             </div>
         </div>
-{#        <!-- FOOTER IN CAZ CA NE TREBUIE -->#}
-{#        <footer style="border: 2px solid red; border-radius: 4px; word-break: normal;" class="container-fluid">#}
-{#            <p>Footer Text</p>#}
-{#        </footer>#}
+
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" {#  #}
                 integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" {#  #}
