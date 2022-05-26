@@ -39,17 +39,18 @@ def create_post(request):
                 check_post = Post.objects.filter(slug=random_str).exists()
             post.slug = random_str
 
-            mimetypes.init()
-            mimestart = mimetypes.guess_type(post.media.url)[0]
-            if mimestart is not None:
-                mimestart = mimestart.split('/')[0]
+            if post.media != "":
+                mimetypes.init()
+                mimestart = mimetypes.guess_type(post.media.url)[0]
+                if mimestart is not None:
+                    mimestart = mimestart.split('/')[0]
 
-                if mimestart == 'audio':
-                    post.type = 1
-                if mimestart == 'video':
-                    post.type = 2
-                if mimestart == 'image':
-                    post.type = 3
+                    if mimestart == 'audio':
+                        post.type = 1
+                    if mimestart == 'video':
+                        post.type = 2
+                    if mimestart == 'image':
+                        post.type = 3
 
             post.save()
             for user in group.user_set.all():

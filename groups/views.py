@@ -60,6 +60,7 @@ def change_group(request, group_name):
             name = change_form.cleaned_data.get('name')
             description = change_form.cleaned_data.get('description')
             group.name = name
+            group.groupprofile.name = name
             group.groupprofile.description = description
             group.save()
     return redirect('groups:group_page', group_name=name)
