@@ -7,7 +7,7 @@
 
 {% block content %}
         <div style="border-radius: 4px; overflow-y: auto; word-break: normal;" class="col-sm-12">
-            <div class="col-lg-11 mx-auto bg-black" style="margin-top: 10px; border-radius: 4px;">
+            <div class="col-lg-11 mx-auto bg-blackk" style="margin-top: 10px; border-radius: 4px">
                 <div style="height: 9%; align-items: center" class="row content">
                     <div style="padding:0px;" class="col-sm-1">
                         <div style="max-height:8%; " class="text-center">
@@ -17,7 +17,7 @@
                     <div style="padding:0px;" class="col-sm-11">
                             <div style="height:100%" class="d-flex align-items-center">
                                 <div style="margin-left:20px;" class="align-self-center">
-                                    <a style = "color:gray" type="button" data-bs-toggle="modal" data-bs-target="#createPostModal">How are you feeling? Tell your friends all about that!</a>
+                                    <a style = "color:darkgray" type="button" data-bs-toggle="modal" data-bs-target="#createPostModal">How are you feeling? Tell your friends all about that!</a>
                                 </div>
                             </div>
                     </div>
@@ -27,7 +27,7 @@
             <div style="margin-top: 15px; overflow: auto; max-height: 800px" class="col-lg-11 mx-auto">
                 <ul class="list-group shadow">
                     {% for post in posts %}
-                        <li class="list-group-item">
+                        <li class="list-group-item bg-blackk">
                             <div class="row" style="max-height: 200px">
                                 {% if post.type > 1%}
                                     {% if post.type == 2 %}
@@ -66,41 +66,43 @@
                                         </script>
                                     {% endif %}
                                     <div class="col-md-10">
-                                        <h5 class="mt-0 font-weight-bold mb-2">
-                                            <a href="{% url 'accounts:user_account' username=post.owner.username %}">{{ post.owner.get_full_name }}</a>
+                                        <h5 class="mt-0 font-weight-bold mb-2" style="color: gray">
+                                            <a style="color: gray" class = "text-gray" href="{% url 'accounts:user_account' username=post.owner.username %}">{{ post.owner.get_full_name }}</a>
                                             posted{% if post.host_group.groupprofile.name == "Feed"%}:
-                                            {% else %} in <a href="{% url "groups:group_page" group_name=post.host_group.name %}">{{ post.host_group.name }}</a>
+                                            {% else %} in <a style="color: darkgray" href="{% url "groups:group_page" group_name=post.host_group.name %}">{{ post.host_group.name }}</a>
                                             {% endif %}
-                                            <p class="font-italic text-muted mb-0 small">
-                                                {{ post.text }}
-                                            </p>
-                                            <p></p>
-                                            <p><small class="text-muted">
-                                                {{ post.date|timezone:"Europe/Bucharest" }}
-                                            </small></p>
                                         </h5>
+                                        <p></p>
+                                        <p class="font-italic mb-0" style="word-wrap: break-word; color: darkgray">
+                                            {{ post.text|truncatechars:650 }}
+                                        </p>
+                                        <p></p>
+                                        <p p class = "small"><small class="text-muted">
+                                            {{ post.date|timezone:"Europe/Bucharest" }}
+                                        </small></p>
                                     </div>
                                 {% else %}
                                     <div class="col-md-12">
-                                        <h5 class="mt-0 font-weight-bold mb-2">
-                                            <a href="{% url 'accounts:user_account' username=post.owner.username %}">{{ post.owner.get_full_name }}</a>
+                                        <h5 class="mt-0 font-weight-bold mb-2" style="color: gray">
+                                            <a style="color: gray" class = "text-gray" href="{% url 'accounts:user_account' username=post.owner.username %}">{{ post.owner.get_full_name }}</a>
                                             posted{% if post.host_group.groupprofile.name == "Feed"%}:
-                                            {% else %} in <a href="{% url "groups:group_page" group_name=post.host_group.name %}">{{ post.host_group.name }}</a>
+                                            {% else %} in <a style="color: darkgray" href="{% url "groups:group_page" group_name=post.host_group.name %}">{{ post.host_group.name }}</a>
                                             {% endif %}
-                                            <p class="font-italic mb-0 small" style="word-wrap: break-word">
-                                                    {{ post.text }}
-                                            </p>
-                                            <p></p>
-                                            <p><small class="text-muted">
-                                                {{ post.date|timezone:"Europe/Bucharest" }}
-                                            </small></p>
                                         </h5>
+                                        <p></p>
+                                        <p class="font-italic mb-0" style="word-wrap: break-word; color: darkgray">
+                                            {{ post.text|truncatechars:650 }}
+                                        </p>
+                                        <p></p>
+                                        <p p class = "small"><small class="text-muted">
+                                            {{ post.date|timezone:"Europe/Bucharest" }}
+                                        </small></p>
                                     </div>
-                                        {% if post.type == 1%}
-                                            <audio controls="border" style="width: 100%">
-                                                <source src="{{ post.media.url }}">
-                                            </audio>
-                                        {% endif %}
+                                    {% if post.type == 1%}
+                                        <audio controls="border" style="width: 100%">
+                                            <source src="{{ post.media.url }}">
+                                        </audio>
+                                    {% endif %}
                                 {% endif %}
                             </div>
                         </li>

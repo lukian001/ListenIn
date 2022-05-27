@@ -4,13 +4,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
-def get_name(self):
-    return "{}".format(self.groupprofile.name)
-
-
-Group.add_to_class("__str__", get_name)
-
-
 def is_member(user, group):
     return user.groups.filter(name=group.name).exists()
 

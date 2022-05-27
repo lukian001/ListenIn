@@ -16,6 +16,7 @@ def homepage(request):
             posts.sort(key=lambda pst: pst.date, reverse=True)
 
             post_form = CreatePostForm()
+            post_form.set_choices(request.user.groups.all(), request.user.id, request.user.username)
             post_form.fields['host_group'].queryset = request.user.groups
             return render(request, 'main_page.html', {'posts': posts,
                                                       'post_form': post_form})

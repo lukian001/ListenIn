@@ -6,7 +6,8 @@ from posts.forms import CreatePostForm
 from accounts.models import Notification
 import random
 import string
-import  mimetypes
+import mimetypes
+
 
 def post_page(request, slug):
     post = Post.objects.get(slug=slug)
@@ -19,10 +20,12 @@ def post_page(request, slug):
     return render(request, 'posts/post.html', {'post': post,
                                                'owner': owner})
 
+
 def get_random_string(length):
     letters = string.ascii_lowercase
     result_str = ''.join(random.choice(letters) for i in range(length))
     return result_str
+
 
 def create_post(request):
     if request.method == 'POST':

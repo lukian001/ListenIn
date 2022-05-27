@@ -10,8 +10,8 @@ class CreateUserForm(UserCreationForm):
 
 
 class ChangeUserForm(forms.ModelForm):
-    description = forms.CharField(widget=forms.Textarea)
-    media = forms.FileField()
+    description = forms.CharField(widget=forms.Textarea, required=False)
+    media = forms.FileField(required=False)
 
     class Meta:
         model = User

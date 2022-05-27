@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
 from posts.models import Post
 from groups.forms import CreateGroupForm
 from .models import FriendRequest
+from PIL import Image
 
 from .forms import CreateUserForm, ChangeUserForm
 
@@ -62,8 +63,7 @@ def user_view(request, username):
         })
         return render(request, 'accounts/user.html', {'user': user,
                                                       'group_form': group_form,
-                                                      'posts': Post.objects.filter(owner=user, host_group=user.groups.
-                                                                                   all()[0]).order_by('-date'),
+                                                      'posts': Post.objects.filter(owner=user).order_by('-date'),
                                                       'is_friend': is_friend,
                                                       'request_sent': request_sent,
                                                       'change_form': change_form})
@@ -89,8 +89,10 @@ def accept_friend(request, request_id):
         fr = FriendRequest.objects.get(id=request_id)
         user_from = fr.user_from
         user_to = fr.user_to
-        user_from.groups.all()[0].user_set.add(user_to)
-        user_to.groups.all()[0].user_set.add(user_from)
+        groupTo = Group.objects.get(name=str(user_to.id) + user_to.username + str(user_to.id))
+        groupFrom = Group.objects.get(name=str(user_from.id) + user_from.username + str(user_from.id))
+        groupFrom.user_set.add(user_to)
+        groupTo.user_set.add(user_from)
         fr.delete()
     return render(request, 'main_page.html')
 
@@ -105,20 +107,48 @@ def decline_friend(request, request_id):
 def remove_friend(request, user_to_username):
     if request.method == 'POST':
         user = User.objects.get(username=user_to_username)
-        user.groups.all()[0].user_set.remove(request.user)
-        request.user.groups.all()[0].user_set.remove(user)
+        user_group = Group.objects.get(name=str(user.id) + user.username + str(user.id))
+        user_group.user_set.remove(request.user)
+        user_group = Group.objects.get(name=str(request.user.id) + request.user.username + str(request.user.id))
+        user_group.user_set.remove(user)
     return redirect('accounts:user_account', username=user_to_username)
+
+
+def resize_img(pimg):
+    img = Image.open(pimg.path)
+    if img.height > img.width:
+        left = 0
+        right = img.width
+        top = (img.height - img.width) / 2
+        bottom = (img.height + img.width) / 2
+        img = img.crop((left, top, right, bottom))
+        if img.height > 300 or img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size)
+            img.save(pimg.path)
+
+    elif img.width > img.height:
+        left = (img.width - img.height) / 2
+        right = (img.width + img.height) / 2
+        top = 0
+        bottom = img.height
+        img = img.crop((left, top, right, bottom))
+        if img.height > 300 or img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size)
+            img.save(pimg.path)
 
 
 def change_user(request, username):
     if request.method == "POST":
         user = User.objects.get(username=username)
-        change_form = ChangeUserForm(request.POST)
+        change_form = ChangeUserForm(request.POST, request.FILES)
         if change_form.is_valid():
             user.first_name = change_form.cleaned_data.get('first_name')
             user.last_name = change_form.cleaned_data.get('last_name')
-            user.email = change_form.cleaned_data.get('email')
             user.profile.description = change_form.cleaned_data.get('description')
-            user.profile.avatar = change_form.cleaned_data.get('media')
+            if len(request.FILES) != 0:
+                user.profile.avatar = request.FILES["media"]
             user.save()
+            resize_img(user.profile.avatar)
     return redirect('accounts:user_account', username=username)
