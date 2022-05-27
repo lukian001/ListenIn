@@ -36,7 +36,8 @@ def group_page(request, group_name):
                                                       'posts': posts,
                                                       'is_member': is_member,
                                                       'is_admin': is_admin,
-                                                      'change_form': change_form})
+                                                      'change_form': change_form,
+                                                      })
 
 
 def enter_group(request, group_name):

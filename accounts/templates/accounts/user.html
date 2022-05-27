@@ -2,11 +2,11 @@
 {% load tz %}
 
 {% block title %}
-    {{ user.get_full_name }} | ListenIn
+    {{ user.get_full_name }} | listenIn
 {% endblock %}
 
 {% block content %}
-    <div class="row content" style="height: 100%">
+    <div class="row content">
         <div style="overflow-y: auto; border-radius: 4px; height: 100%; word-break: normal; margin-top: 10px" class="col-sm-2">
             <h2 style = "text-align: center; color: darkgray">Groups</h2>
             <div class="list-group">
@@ -34,7 +34,7 @@
                         </div>
                     </div>
                 </div>
-
+                <hr style="color: white">
 
                 <form style="margin-left:25px ;margin-top: 10px" class = "add-friend d-flex" method = "post" action = "{% url 'accounts:add_friend' user_to_username=user %}" id = "friend-request">
                     {% csrf_token %}
