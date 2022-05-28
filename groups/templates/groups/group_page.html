@@ -15,7 +15,7 @@
                             <img id = "{{ group.name }}" src="{{ group.groupprofile.avatar.url }}" height="200px" style="border-radius: 50%">
                             <div id="{{ group.name }}myModal" class="imgModal">
                                 <span id = "{{ group.name }}close" class="imgClose">&times;</span>
-                                <img style = "border-radius: 4px" class="imgModal-content" id="{{ group.name }}img01">
+                                <img style = "border-radius: 4px; max-height: 600px; max-width: 600px" class="imgModal-content" id="{{ group.name }}img01">
                             </div>
                             <script>
                                 $("#{{ group.name }}").click(function () {

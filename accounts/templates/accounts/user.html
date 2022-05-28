@@ -29,7 +29,7 @@
                             <img id="{{ user.username }}" src="{{ user.profile.avatar.url }}" height="200px" style="border-radius: 50%">
                             <div id="{{ user.username }}myModal" class="imgModal">
                                 <span id = "{{ user.username }}close" class="imgClose">&times;</span>
-                                <img style = "border-radius: 4px" class="imgModal-content" id="{{ user.username }}img01">
+                                <img style = "border-radius: 4px; max-height: 600px; max-width: 600px" class="imgModal-content" id="{{ user.username }}img01">
                             </div>
                             <script>
                                 $("#{{ user.username }}").click(function () {

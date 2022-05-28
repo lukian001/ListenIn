@@ -10,7 +10,8 @@
         <div style="margin-top: 15px; overflow: auto; max-height: 800px" class="col-lg-11 mx-auto">
             <ul class="list-group shadow">
                 {% for user in users|slice:":5" %}
-                        <li class="list-group-item bg-blackk">
+                    <a href="{% url 'accounts:user_account' username=user.username %}">
+                        <li class="list-group-item bg-blackk"">
                             <div class="row" style="max-height: 200px">
                                 <div class="col-md-1">
                                     <img src="{{ user.profile.avatar.url }}" style="width: 100px; height: 100%; border-radius: 50%">
@@ -25,6 +26,7 @@
                                 </div>
                             </div>
                         </li>
+                    </a>
                 {% endfor %}
             </ul>
         </div>
@@ -35,6 +37,7 @@
         <div style="margin-top: 15px; overflow: auto; max-height: 800px" class="col-lg-11 mx-auto">
             <ul class="list-group shadow">
                 {% for group in groups|slice:":5" %}
+                    <a href="{% url 'groups:group_page' group_name=group.name %}">
                         <li class="list-group-item bg-blackk">
                             <div class="row" style="max-height: 200px">
                                 <div class="col-md-1">
@@ -50,6 +53,7 @@
                                 </div>
                             </div>
                         </li>
+                    </a>
                 {% endfor %}
             </ul>
         </div>
