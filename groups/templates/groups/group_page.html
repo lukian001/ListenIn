@@ -7,14 +7,14 @@
 
 {% block content %}
     <div class="row content">
-        <div class="col-sm-12" style="background-color: #3e3e42; margin-top: 15px; border-radius: 4px; overflow: auto; max-height: 910px">
+        <div class="col-sm-12" style="background-color: #3e3e42; margin-top: 15px;margin-left: 15px; border-radius: 4px; overflow: auto; max-height: 910px">
             <div style="border-radius: 4px; overflow-y: auto; word-break: normal;" class="col-sm-12">
                 <div class="container text-center">
                     <div class="row content" style="align-items: center">
-                        {#                        <div style="border-radius: 4px; margin-top:50px;" class="col-sm-2 sidenav">#}
-                        {#                            <img src="{{ user.profile.avatar.url }}" height="200px" style="border-radius: 50%">#}
-                        {#                        </div>#}
-                        <div style="border-radius: 4px; margin-top:50px; height:210px; padding: 60px 0; word-break: normal;" class="col-sm-12 sidenav">
+                        <div style="border-radius: 4px; margin-top:50px;" class="col-sm-2 sidenav">
+                            <img src="{{ group.groupprofile.avatar.url }}" height="200px" style="border-radius: 50%">
+                        </div>
+                        <div style="border-radius: 4px; margin-top:50px; height:210px; padding: 60px 0; word-break: normal;" class="col-sm-10 sidenav">
                             <h1 style="color: darkgray">{{ group.name }}</h1>
                             <p style="color: darkgray">{{ group.groupprofile.description }}</p>
                         </div>
@@ -29,7 +29,7 @@
                                 <h5 class="modal-title" id="exampleModalLongTitle">Change group info</h5>
                             </div>
                             <div class="modal-body">
-                                <form class="site-form" method="post" action="{% url 'groups:change_group' group_name=group.name %}" id="change-group-form">
+                                <form class="site-form" method="post" action="{% url 'groups:change_group' group_name=group.name %}" id="change-group-form" enctype="multipart/form-data">
                                     {% csrf_token %}
                                     {{ change_form }}
                                 </form>

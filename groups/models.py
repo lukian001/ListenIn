@@ -16,6 +16,7 @@ class GroupProfile(models.Model):
     name = models.TextField(default="Feed")
     group = models.OneToOneField(Group, on_delete=models.CASCADE)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    avatar = models.ImageField(default='avatar-default.png', blank=True)
     is_feed = models.BooleanField(default=False)
     description = models.TextField()
 

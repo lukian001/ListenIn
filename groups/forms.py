@@ -10,6 +10,7 @@ class CreateGroupForm(forms.ModelForm):
 
 class ChangeGroupForm(forms.ModelForm):
     description = forms.CharField(widget=forms.Textarea)
+    media = forms.ImageField()
 
     class Meta:
         model = Group
