@@ -13,6 +13,7 @@ urlpatterns = [
     path('account/', include('accounts.urls')),
     path('post/', include('posts.urls')),
     path('group/', include('groups.urls')),
+    path('search/', include('search.urls')),
     path('', views.homepage, name="homepage"),
 ]
 
