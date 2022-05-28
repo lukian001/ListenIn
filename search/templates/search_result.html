@@ -1,0 +1,145 @@
+{% extends 'base_layout.html' %}
+{% load tz %}
+
+{% block title %}
+    Search: {{ text }}
+{% endblock %}
+
+{% block content %}
+    {% if users|length > 0 %}
+        <div style="margin-top: 15px; overflow: auto; max-height: 800px" class="col-lg-11 mx-auto">
+            <ul class="list-group shadow">
+                {% for user in users|slice:":5" %}
+                        <li class="list-group-item bg-blackk">
+                            <div class="row" style="max-height: 200px">
+                                <div class="col-md-1">
+                                    <img src="{{ user.profile.avatar.url }}" style="width: 100px; height: 100%; border-radius: 50%">
+                                </div>
+                                <div class="col-md-10 justify-content-center">
+                                    <h1 class="mt-0 font-weight-bold mb-2" style="color: gray">
+                                        {{ user.get_full_name }}
+                                    </h1>
+                                    <h3 class="mt-0 font-weight-bold mb-2 text-muted" style="color: gray">
+                                        {{ user.groups.all.0.user_set.count }} friends
+                                    </h3>
+                                </div>
+                            </div>
+                        </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+
+    {% if groups|length > 0 %}
+        <div style="margin-top: 15px; overflow: auto; max-height: 800px" class="col-lg-11 mx-auto">
+            <ul class="list-group shadow">
+                {% for group in groups|slice:":5" %}
+                        <li class="list-group-item bg-blackk">
+                            <div class="row" style="max-height: 200px">
+                                <div class="col-md-1">
+                                    <img src="{{ group.groupprofile.avatar.url }}" style="width: 100px; height: 100%; border-radius: 50%">
+                                </div>
+                                <div class="col-md-10 justify-content-center">
+                                    <h1 class="mt-0 font-weight-bold mb-2" style="color: gray">
+                                        {{ group.name }}
+                                    </h1>
+                                    <h3 class="mt-0 font-weight-bold mb-2 text-muted" style="color: gray">
+                                        {{ group.user_set.count }} members
+                                    </h3>
+                                </div>
+                            </div>
+                        </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    {% if posts|length > 0 %}
+        <div style="margin-top: 15px; overflow: auto; max-height: 800px" class="col-lg-11 mx-auto">
+            <ul class="list-group shadow">
+                {% for post in posts|slice:":5" %}
+                    <li class="list-group-item bg-blackk">
+                        <div class="row" style="max-height: 200px">
+                            {% if post.type > 1%}
+                                {% if post.type == 2 %}
+                                    <div class="col-md-2">
+                                        <video controls="controls" preload="preload"
+                                               style="height: auto; width: 210px; border-radius: 4px">
+                                            <source src="{{ post.media.url }}" type="video/mp4">
+                                        </video>
+                                    </div>
+                                {% endif %}
+                                {% if post.type == 3 %}
+                                    <div class="col-md-2">
+                                        <img id = "{{ post.slug }}" src="{{ post.media.url }}" style="width: 210px; height: 100%; border-radius: 4px">
+                                    </div>
+                                    <div id="{{ post.slug }}myModal" class="imgModal">
+                                        <span id = "{{ post.slug }}close" class="imgClose">&times;</span>
+                                        <img style = "border-radius: 4px" class="imgModal-content" id="{{ post.slug }}img01">
+                                    </div>
+                                    <script>
+                                        $("#{{  post.slug  }}").click(function () {
+                                            const modal = document.getElementById("{{ post.slug }}myModal");
+
+                                            const img = document.getElementById("{{ post.slug }}");
+                                            const modalImg = document.getElementById("{{ post.slug }}img01");
+                                            img.onclick = function(){
+                                                modal.style.display = "block";
+                                                modalImg.src = this.src;
+                                            }
+
+                                            const span = document.getElementById("{{ post.slug }}close");
+
+                                            span.onclick = function() {
+                                                modal.style.display = "none";
+                                            }
+                                        })
+                                    </script>
+                                {% endif %}
+                                <div class="col-md-10">
+                                    <h5 class="mt-0 font-weight-bold mb-2" style="color: gray">
+                                        <a style="color: gray" class = "text-gray" href="{% url 'accounts:user_account' username=post.owner.username %}">{{ post.owner.get_full_name }}</a>
+                                        posted{% if post.host_group.groupprofile.name == "Feed"%}:
+                                        {% else %} in <a style="color: darkgray" href="{% url "groups:group_page" group_name=post.host_group.name %}">{{ post.host_group.name }}</a>
+                                        {% endif %}
+                                    </h5>
+                                    <p></p>
+                                    <p class="font-italic mb-0" style="word-wrap: break-word; color: darkgray">
+                                        {{ post.text|truncatechars:650 }}
+                                    </p>
+                                    <p></p>
+                                    <p p class = "small"><small class="text-muted">
+                                        {{ post.date|timezone:"Europe/Bucharest" }}
+                                    </small></p>
+                                </div>
+                            {% else %}
+                                <div class="col-md-12">
+                                    <h5 class="mt-0 font-weight-bold mb-2" style="color: gray">
+                                        <a style="color: gray" class = "text-gray" href="{% url 'accounts:user_account' username=post.owner.username %}">{{ post.owner.get_full_name }}</a>
+                                        posted{% if post.host_group.groupprofile.name == "Feed"%}:
+                                        {% else %} in <a style="color: darkgray" href="{% url "groups:group_page" group_name=post.host_group.name %}">{{ post.host_group.name }}</a>
+                                        {% endif %}
+                                    </h5>
+                                    <p></p>
+                                    <p class="font-italic mb-0" style="word-wrap: break-word; color: darkgray">
+                                        {{ post.text|truncatechars:650 }}
+                                    </p>
+                                    <p></p>
+                                    <p p class = "small"><small class="text-muted">
+                                        {{ post.date|timezone:"Europe/Bucharest" }}
+                                    </small></p>
+                                </div>
+                                {% if post.type == 1%}
+                                    <audio controls="border" style="width: 100%">
+                                        <source src="{{ post.media.url }}">
+                                    </audio>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+{% endblock %}

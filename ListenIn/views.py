@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from posts.models import Post
 from posts.forms import CreatePostForm
+from search.forms import SearchForm
 
 
 def homepage(request):
@@ -18,7 +18,10 @@ def homepage(request):
             post_form = CreatePostForm()
             post_form.set_choices(request.user.groups.all(), request.user.id, request.user.username)
             post_form.fields['host_group'].queryset = request.user.groups
+
+            search_form = SearchForm()
             return render(request, 'main_page.html', {'posts': posts,
-                                                      'post_form': post_form})
+                                                      'post_form': post_form,
+                                                      'search_form': search_form})
         else:
             return redirect('accounts:login')

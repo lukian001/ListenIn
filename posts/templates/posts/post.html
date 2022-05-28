@@ -1,12 +1,12 @@
 {% extends 'base_layout.html' %}
 
 {% block title %}
-    <title> Post by {{ owner.first_name }} {{ owner.last_name }} </title>
+    Post by {{ owner.get_full_name }}
 {% endblock %}
 
 {% block content %}
     <div class = "post_content">
-        <h1> {{ owner.first_name }} {{ owner.last_name }} wrote: </h1>
+        <h1> {{ owner.get_full_name }} wrote: </h1>
         <p> {{ post.text }} </p>
         <p> on {{ post.date }} </p>
     </div>
