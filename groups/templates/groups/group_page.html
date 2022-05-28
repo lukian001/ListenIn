@@ -12,7 +12,29 @@
                 <div class="container text-center">
                     <div class="row content" style="align-items: center">
                         <div style="border-radius: 4px; margin-top:50px;" class="col-sm-2 sidenav">
-                            <img src="{{ group.groupprofile.avatar.url }}" height="200px" style="border-radius: 50%">
+                            <img id = "{{ group.name }}" src="{{ group.groupprofile.avatar.url }}" height="200px" style="border-radius: 50%">
+                            <div id="{{ group.name }}myModal" class="imgModal">
+                                <span id = "{{ group.name }}close" class="imgClose">&times;</span>
+                                <img style = "border-radius: 4px" class="imgModal-content" id="{{ group.name }}img01">
+                            </div>
+                            <script>
+                                $("#{{ group.name }}").click(function () {
+                                    const modal = document.getElementById("{{ group.name }}myModal");
+
+                                    const img = document.getElementById("{{ group.name }}");
+                                    const modalImg = document.getElementById("{{ group.name }}img01");
+                                    img.onclick = function(){
+                                        modal.style.display = "block";
+                                        modalImg.src = this.src;
+                                    }
+
+                                    const span = document.getElementById("{{ group.name }}close");
+
+                                    span.onclick = function() {
+                                        modal.style.display = "none";
+                                    }
+                                })
+                            </script>
                         </div>
                         <div style="border-radius: 4px; margin-top:50px; height:210px; padding: 60px 0; word-break: normal;" class="col-sm-10 sidenav">
                             <h1 style="color: darkgray">{{ group.name }}</h1>

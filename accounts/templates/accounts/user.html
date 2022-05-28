@@ -26,7 +26,29 @@
                 <div class="container text-center">
                     <div class="row content" style="align-items: center">
                         <div style="border-radius: 4px; margin-top:50px;" class="col-sm-2 sidenav">
-                            <img src="{{ user.profile.avatar.url }}" height="200px" style="border-radius: 50%">
+                            <img id="{{ user.username }}" src="{{ user.profile.avatar.url }}" height="200px" style="border-radius: 50%">
+                            <div id="{{ user.username }}myModal" class="imgModal">
+                                <span id = "{{ user.username }}close" class="imgClose">&times;</span>
+                                <img style = "border-radius: 4px" class="imgModal-content" id="{{ user.username }}img01">
+                            </div>
+                            <script>
+                                $("#{{ user.username }}").click(function () {
+                                    const modal = document.getElementById("{{ user.username }}myModal");
+
+                                    const img = document.getElementById("{{ user.username }}");
+                                    const modalImg = document.getElementById("{{ user.username }}img01");
+                                    img.onclick = function(){
+                                        modal.style.display = "block";
+                                        modalImg.src = this.src;
+                                    }
+
+                                    const span = document.getElementById("{{ user.username }}close");
+
+                                    span.onclick = function() {
+                                        modal.style.display = "none";
+                                    }
+                                })
+                            </script>
                         </div>
                         <div style="border-radius: 4px; margin-top:50px; height:210px; padding: 60px 0; word-break: normal;" class="col-sm-10 sidenav">
                             <h1 style="color: darkgray">{{ user.get_full_name }}</h1>
