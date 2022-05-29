@@ -113,6 +113,18 @@ def delete_group(request, group_name):
 
 def group_members(request, group_name):
     group = Group.objects.get(name=group_name)
+    user = User.objects.get(username=request.user.username)
+    is_member = member(user, group)
+    is_admin = admin(user, group)
     members = group.user_set.all()
-    return render(request, 'groups/group_members.html', {'members': members,
+    change_form = ChangeGroupForm(initial={
+        'name': group.name,
+        'description': group.groupprofile.description,
+        'media': group.groupprofile.avatar
+    })
+    return render(request, 'groups/group_members.html', {'group': group,
+                                                         'is_member': is_member,
+                                                         'members': members,
+                                                         'is_admin': is_admin,
+                                                         'change_form': change_form,
                                                          })
