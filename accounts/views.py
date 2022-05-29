@@ -152,3 +152,29 @@ def change_user(request, username):
             user.save()
             resize_img(user.profile.avatar)
     return redirect('accounts:user_account', username=username)
+
+
+def liked_posts(request, username):
+    if User.objects.filter(username=username).exists():
+        user = User.objects.get(username=username)
+        is_friend = user.groups.filter(
+            name=str(request.user.id) + request.user.username + str(request.user.id)).exists()
+        request_sent = FriendRequest.objects.filter(user_from=request.user,
+                                                    user_to=user).exists() or FriendRequest.objects.filter(
+            user_from=user, user_to=request.user).exists()
+        group_form = CreateGroupForm()
+        change_form = ChangeUserForm(initial={
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email': user.email,
+            'description': user.profile.description,
+            'media': user.profile.avatar
+        })
+        return render(request, 'accounts/user.html', {'user': user,
+                                                      'group_form': group_form,
+                                                      'posts': user.profile.liked_posts.order_by('-date'),
+                                                      'is_friend': is_friend,
+                                                      'request_sent': request_sent,
+                                                      'change_form': change_form})
+    else:
+        return render(request, 'error_page.html')

@@ -69,7 +69,8 @@
                             <button type = "submit" form="delete-friend" class="btn btn-light" data-mdb-ripple-color="dark">Remove friend</button>
                         {% endif %}
                     {% else %}
-                        <button type = "button" class="btn btn-light" data-mdb-ripple-color="dark"  data-bs-toggle="modal" data-bs-target="#changeUserModal">Change data</button>
+                        <button type="button" class="btn btn-light" data-mdb-ripple-color="dark" data-bs-toggle="modal" data-bs-target="#changeUserModal">Change data</button>
+                        <a class="btn btn-light" style="margin-left: 10px" href="{% url 'accounts:liked_posts' username=request.user.username %}">Liked posts</a>
                     {% endif %}
                 </form>
                 <form class = "remove-friend" method="post" action = "{% url 'accounts:remove_friend' user_to_username=user %}" id = "delete-friend">
@@ -224,7 +225,13 @@
                                                 <div class="btn-group">
                                                     <form id="{{ post.slug }}like">
                                                     </form>
-                                                    <button id="{{ post.slug }}like_button" type="submit" class="btn btn-outline-primary btn-lg" form="{{ post.slug }}like">Like</button>
+                                                    <button id="{{ post.slug }}like_button" type="submit" class="btn btn-outline-primary btn-lg" form="{{ post.slug }}like">
+                                                        {% if post in request.user.profile.liked_posts.all %}
+                                                            Dislike
+                                                        {% else %}
+                                                            Like
+                                                        {% endif %}
+                                                    </button>
                                                     <script>
                                                         $("#{{ post.slug }}like").on('submit', function (e) {
                                                             e.preventDefault();
