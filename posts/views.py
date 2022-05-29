@@ -1,12 +1,15 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.core import validators
-from .models import Post
+from .models import Post, Comment
 from django.contrib.auth.models import User
 from posts.forms import CreatePostForm
 from accounts.models import Notification
 import random
 import string
 import mimetypes
+from django.views.decorators.csrf import csrf_exempt
+from django.template.loader import render_to_string
 
 
 def post_page(request, slug):
@@ -62,3 +65,36 @@ def create_post(request):
                                                 owner=user)
                     notification.save()
     return redirect('homepage')
+
+
+@csrf_exempt
+def post_comment(request):
+    if request.user.is_authenticated:
+        text = request.POST.get('comment', None)
+        slug = request.POST.get('post_slug', None)
+        post = Post.objects.get(slug=slug)
+        comment = Comment()
+        comment.owner = request.user
+        comment.post = post
+        comment.text = text
+        comment.save()
+        template = render_to_string('comments_list.html', {'comment': comment})
+        return JsonResponse(template, safe=False)
+
+
+@csrf_exempt
+def like_post(request):
+    if request.user.is_authenticated:
+        slug = request.POST.get('post_slug', None)
+        post = Post.objects.get(slug=slug)
+        if post not in request.user.profile.liked_posts.all():
+            post.likes = post.likes + 1
+            request.user.profile.liked_posts.add(post)
+            post.save()
+        else:
+            post.likes = post.likes - 1
+            request.user.profile.liked_posts.remove(post)
+            post.save()
+        template = render_to_string('likes-date.html', {'post': post,
+                                                        })
+        return JsonResponse(template, safe=False)

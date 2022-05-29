@@ -123,31 +123,79 @@
                                                     </audio>
                                                 {% endif %}
                                                 <hr/>
-                                                <p p class = "small"><small class="text-muted">
-                                                    {{ post.date|timezone:"Europe/Bucharest" }}
-                                                </small></p>
+                                                <div id="{{ post.slug }}date-like-post">
+                                                    <p p class = "small"><small class="text-muted">
+                                                        {{ post.date|timezone:"Europe/Bucharest" }} &nbsp; - &nbsp; {{ post.likes }} likes
+                                                    </small></p>
+                                                </div>
                                                 <hr/>
                                                 <h4>Comments<br></h4>
                                                 <hr/>
-                                                <form>
-                                                    <input style="margin-top:10px;margin-bottom:20px;width:100%;overflow-y:auto;" type="text" placeholder="Add a comment...">
+                                                <form id="{{ post.slug }}comments">
+                                                    <input id = "{{ post.slug }}comm" style="margin-top:10px;margin-bottom:20px;overflow-y:auto;" type="text" placeholder="Add a comment...">
+                                                    <button type="submit" style="float:none;" class="btn btn-primary">Post</button>
                                                 </form>
-                                                <button type="button" style="float:none;" class="btn btn-primary">Post the comment</button>
                                                 <hr/>
-                                                <ul class="list-group list-group-flush">
-                                                    {% for comment in post.comment_set.all %}
-                                                        <li class="list-group-item">{{ comment.text }}</li>
-                                                    {% endfor %}
-                                                </ul>
+                                                <div style="overflow: auto; max-height: 300px">
+                                                    <ul class="list-group list-group-flush" id="{{ post.slug }}comms">
+                                                        {% for comment in post.comment_set.all %}
+                                                            <li>
+                                                                <p><a style="color: gray" class = "text-gray" href="{% url 'accounts:user_account' username=comment.owner.username %}"> {{ comment.owner.get_full_name }} </a> posted:</p>
+                                                                {{ comment.text }}
+                                                                <p class = "small"><small class="text-muted">
+                                                                    {{ comment.date|timezone:"Europe/Bucharest" }}
+                                                                </small></p>
+                                                            </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </div>
+
+                                                <script>
+                                                    $("#{{ post.slug }}comments").on('submit', function (e) {
+                                                        e.preventDefault();
+
+                                                        $.ajax({
+                                                            type: 'POST',
+                                                            url: "{% url 'posts:post_comment' %}",
+                                                            data: {
+                                                                comment : $('#{{ post.slug }}comm').val(),
+                                                                post_slug : "{{ post.slug }}"
+                                                            },
+                                                            dataType: "json",
+                                                            success: function (data) {
+                                                                $("#{{ post.slug }}comms").append(data);
+                                                            }
+                                                        });
+                                                    });
+                                                </script>
+
                                                 <div class="btn-group">
-                                                    <form>
-
+                                                    <form id="{{ post.slug }}like">
                                                     </form>
-                                                    <form>
+                                                    <button id="{{ post.slug }}like_button" type="submit" class="btn btn-outline-primary btn-lg" form="{{ post.slug }}like">Like</button>
+                                                    <script>
+                                                        $("#{{ post.slug }}like").on('submit', function (e) {
+                                                            e.preventDefault();
 
-                                                    </form>
-                                                    <button type="button" class="btn btn-outline-primary btn-lg">Like</button>
-                                                    <button type="button" class="btn btn-outline-danger btn-lg">Dislike</button>
+                                                            $.ajax({
+                                                                type: 'POST',
+                                                                url: "{% url 'posts:like_post' %}",
+                                                                data: {
+                                                                    post_slug: "{{ post.slug }}"
+                                                                },
+                                                                dataType: "json",
+                                                                success: function (data) {
+                                                                    $("#{{ post.slug }}date-like-post").html(data);
+                                                                    let button_text = $("#{{ post.slug }}like_button").text();
+                                                                    if(button_text.localeCompare("Like") == 0) {
+                                                                        $("#{{ post.slug }}like_button").text("Dislike");
+                                                                    } else {
+                                                                        $("#{{ post.slug }}like_button").text("Like");
+                                                                    }
+                                                                }
+                                                            })
+                                                        })
+                                                    </script>
                                                 </div>
                                             </div>
                                         </div>
