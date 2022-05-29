@@ -11,6 +11,8 @@ class Post(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     media = models.FileField(blank=True)
     type = models.IntegerField(default=0, blank=False)
+    likes = models.IntegerField(default=0, blank=False)
+
 
 class Comment(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)

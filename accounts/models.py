@@ -4,6 +4,7 @@ from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 
 from groups.models import GroupProfile
+from posts.models import Post
 
 
 class Notification(models.Model):
@@ -26,7 +27,7 @@ class Profile(models.Model):
     birthdate = models.DateField(null=True, blank=True)
     description = models.TextField()
     avatar = models.ImageField(default='avatar-default.png', blank=True)
-
+    liked_posts = models.ManyToManyField(Post)
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
