@@ -228,7 +228,13 @@
                                                 <div class="btn-group">
                                                     <form id="{{ post.slug }}like">
                                                     </form>
-                                                    <button id="{{ post.slug }}like_button" type="submit" class="btn btn-outline-primary btn-lg" form="{{ post.slug }}like">Like</button>
+                                                    <button id="{{ post.slug }}like_button" type="submit" class="btn btn-outline-primary btn-lg" form="{{ post.slug }}like">
+                                                        {% if post in request.user.profile.liked_posts.all %}
+                                                            Dislike
+                                                        {% else %}
+                                                            Like
+                                                        {% endif %}
+                                                    </button>
                                                     <script>
                                                         $("#{{ post.slug }}like").on('submit', function (e) {
                                                             e.preventDefault();
