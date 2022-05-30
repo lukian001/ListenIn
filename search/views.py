@@ -27,7 +27,7 @@ def search_groups(text):
     for txt in text_splitted:
         groups_now = Group.objects.filter(name__icontains=txt)
         for group in groups_now:
-            if group not in groups:
+            if group not in groups and group.groupprofile.name != "Feed":
                 groups.append(group)
 
     return groups

@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
+from django.views.decorators.csrf import csrf_exempt
+from django.core.mail import send_mail
+
 from posts.models import Post
 from groups.forms import CreateGroupForm
 from .models import FriendRequest
@@ -29,20 +32,19 @@ def login_view(request):
 
 
 def register_view(request):
-    if request.method == 'POST':
-        signup_form = CreateUserForm(request.POST)
+    signup_form = CreateUserForm(request.POST)
 
-        signup_form.fields['email'].required = True
+    signup_form.fields['email'].required = True
 
-        if signup_form.is_valid():
-            user = signup_form.save()
-            login(request, user)
-            return redirect('accounts:user_account', user.username)
-        else:
-            user_form = AuthenticationForm()
-            return render(request, 'accounts/login.html', {'user_form': user_form,
-                                                           'signup_form': signup_form})
-    return redirect('accounts:login')
+    if signup_form.is_valid():
+        user = signup_form.save()
+        email = user.email
+        login(request, user)
+        return redirect('accounts:user_account', user.username)
+    else:
+        user_form = AuthenticationForm()
+        return render(request, 'accounts/login.html', {'user_form': user_form,
+                                                       'signup_form': signup_form})
 
 
 def user_view(request, username):
