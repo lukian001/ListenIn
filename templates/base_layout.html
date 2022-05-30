@@ -246,15 +246,14 @@
         .site-form input[type="submit"]{
             font-size: 0.8em;
             font-family:Monaco, monospace;
-            border:0.5px solid;
-            border-color: white;
+            border: 1px solid white;
             color: white;
             background-color:transparent;
             border-radius:10px;
         }
 
         .bagpl{
-            padding: 10px;
+            padding: 0px;
         }
 
         .bagpl input, .bagpl textarea{
@@ -376,7 +375,7 @@
         <div class="container-fluid">
             <div style=" height: 92%;" class="row content">
 
-                <div class="col-sm-10">
+                <div class="col-sm-10 ms-auto">
                     {% block content %}
                     {% endblock %}
                 </div>
