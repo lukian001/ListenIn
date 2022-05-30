@@ -284,7 +284,7 @@
         }
 
     </style>
-<!-- mov fain : #b7f -->
+
     <body>
         <div class="container-fluid px-0 sticky-top">
             <nav class="navbar navbar-expand-sm navbar-dark py-0 px-0" style="background-color: #3e3e42">
@@ -307,16 +307,13 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Groups TODO!!!!!</a>
+                                    <form class="search" method="post" action="{% url 'search:search'%}">
+                                        {% csrf_token %}
+                                    <input class="search_input" type="text" name="text" placeholder="Search here...">
+                                </form>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Games TODO!!!!!</a>
-                            </li>
-                            <li class="nav-item">
-                                <div class="search">
-                                    <input class="search_input" type="text" name="" placeholder="Search here...">
-                                    <a href="#" class="search_icon"><i class="fa fa-search"></i></a>
-                                </div>
+                                <a class="nav-link" href="{% url 'games' %}">Play something</a>
                             </li>
                         {% else %}
 

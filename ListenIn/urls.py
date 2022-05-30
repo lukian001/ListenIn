@@ -15,6 +15,7 @@ urlpatterns = [
     path('group/', include('groups.urls')),
     path('search/', include('search.urls')),
     path('', views.homepage, name="homepage"),
+    path('games/', views.games, name="games"),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

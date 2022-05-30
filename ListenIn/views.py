@@ -24,3 +24,10 @@ def homepage(request):
         return render(request, 'main_page.html', {'posts': posts,
                                                   'post_form': post_form,
                                                   'search_form': search_form})
+
+
+def games(request):
+    if request.user.is_authenticated:
+        return render(request, 'games_page.html')
+    else:
+        return redirect('homepage.html')
