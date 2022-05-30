@@ -38,7 +38,6 @@ def register_view(request):
 
     if signup_form.is_valid():
         user = signup_form.save()
-        email = user.email
         login(request, user)
         return redirect('accounts:user_account', user.username)
     else:

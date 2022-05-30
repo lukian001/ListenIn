@@ -19,3 +19,10 @@ class Comment(models.Model):
     text = models.TextField()
     date = models.DateField(auto_now_add=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True, blank=True)
+
+
+class Message(models.Model):
+    date = models.DateTimeField(auto_now_add=True)
+    sender = models.ForeignKey(User, related_name="sender", on_delete=models.CASCADE)
+    receiver = models.ForeignKey(User, related_name="receiver", on_delete=models.CASCADE)
+    text = models.TextField()

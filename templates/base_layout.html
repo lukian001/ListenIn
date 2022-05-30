@@ -282,10 +282,114 @@
             border-radius:10px;
             margin-left: 25px;
         }
+           .chat-list {
+            padding: 0;
+            font-size: .8rem;
+        }
+
+        .chat-list li {
+            margin-bottom: 10px;
+            overflow: auto;
+            color: #ffffff;
+        }
+
+        .chat-list .chat-img {
+            float: left;
+            width: 48px;
+        }
+
+        .chat-list .chat-img img {
+            -webkit-border-radius: 50px;
+            -moz-border-radius: 50px;
+            border-radius: 50px;
+            width: 100%;
+        }
+
+        .chat-list .chat-message {
+            -webkit-border-radius: 50px;
+            -moz-border-radius: 50px;
+            border-radius: 50px;
+            background: #5a99ee;
+            display: inline-block;
+            padding: 10px 20px;
+            position: relative;
+        }
+
+        .chat-list .chat-message:before {
+            content: "";
+            position: absolute;
+            top: 15px;
+            width: 0;
+            height: 0;
+        }
+
+        .chat-list .chat-message h5 {
+            margin: 0 0 5px 0;
+            font-weight: 600;
+            line-height: 100%;
+            font-size: .9rem;
+        }
+
+        .chat-list .chat-message p {
+            line-height: 18px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .chat-list .chat-body {
+            margin-left: 20px;
+            float: left;
+            width: 70%;
+        }
+
+        .chat-list .in .chat-message:before {
+            left: -12px;
+            border-bottom: 20px solid transparent;
+            border-right: 20px solid #5a99ee;
+        }
+
+        .chat-list .out .chat-img {
+            float: right;
+        }
+
+        .chat-list .out .chat-body {
+            float: right;
+            margin-right: 20px;
+            text-align: right;
+        }
+
+        .chat-list .out .chat-message {
+            background: #fc6d4c;
+        }
+
+        .chat-list .out .chat-message:before {
+            right: -12px;
+            border-bottom: 20px solid transparent;
+            border-left: 20px solid #fc6d4c;
+        }
+
+        .card .card-header:first-child {
+            -webkit-border-radius: 0.3rem 0.3rem 0 0;
+            -moz-border-radius: 0.3rem 0.3rem 0 0;
+            border-radius: 0.3rem 0.3rem 0 0;
+        }
+        .card .card-header {
+            background: #17202b;
+            border: 0;
+            font-size: 1rem;
+            padding: .65rem 1rem;
+            position: relative;
+            font-weight: 600;
+            color: #ffffff;
+        }
 
     </style>
 
     <body>
+    <script>
+        var current_user_id = 0
+        var current_friend_id = 0
+    </script>
         <div class="container-fluid px-0 sticky-top">
             <nav class="navbar navbar-expand-sm navbar-dark py-0 px-0" style="background-color: #3e3e42">
                 <a class="navbar-brand" href="{% url 'homepage' %}">&nbsp;&nbsp;&nbsp;listenIn</a>
@@ -379,26 +483,89 @@
 
 
                 {% if request.user.is_authenticated %}
-                    <div style="overflow-y: auto; border-radius: 4px; height: 100%; word-break: normal; margin-top: 10px;" class="col-sm-2">
+                    <div style="border-radius: 4px; height: 100%; word-break: normal; margin-top: 10px;" class="col-sm-2">
                         <h2 style = "text-align: center; color: darkgray">Friends</h2>
-                        <ul class="friend-list clearfix">
+                        <ul class="friend-list clearfix" style="overflow: auto">
                             {% for friend in request.user.groups.all.0.user_set.all %}
                                 {% if friend.username != request.user.username %}
                                     <li style="border-radius: 4px">
-                                        <a href="{% url 'accounts:user_account' username=friend.username %}" style="border-radius: 4px; background-color: #252526">
+
                                             <div class="friend-img" style="background-color: #252526"><img src="{{ friend.profile.avatar.url }}" alt="" style="max-width: 100%; border-radius: 50%;"/></div>
                                             <div class="friend-info">
+                                            <a href="{% url 'accounts:user_account' username=friend.username %}" style="border-radius: 4px; background-color: #252526">
                                                 <h4 style="color: darkgray">{{ friend.get_full_name }}</h4>
-                                                <p>Ceva</p>
+                                            </a>
+                                            <p id="{{ friend.id }}messages">See messages</p>
+                                                <script>
+                                                    $("#{{ friend.id }}messages").on("click", function() {
+                                                        if($("#chatMessages").css('margin-bottom').localeCompare("-400")) {
+                                                            $("#chatMessages").css("margin-bottom", "10");
+                                                        } else {
+                                                            if($("#chatMessages").css('margin-bottom').localeCompare("10")) {
+                                                                $("#chatMessages").css("margin-bottom", "-400");
+                                                            }
+                                                        }
+                                                        $("#chatWithName").text("Chatting with {{ friend.get_full_name }}");
+                                                        current_user_id = "{{ request.user.id }}"
+                                                        current_friend_id = "{{ friend.id }}"
+
+                                                        $.ajax({
+                                                            type: 'POST',
+                                                            url: "{% url 'posts:get_messages' %}",
+                                                            data: { current: current_user_id,
+                                                                    friend: current_friend_id,
+                                                            },
+                                                            dataType: "json",
+                                                            success: function (data) {
+                                                                $("#thisIsTheChat").html(data);
+                                                            }
+                                                        })
+                                                    })
+                                                </script>
                                             </div>
-                                        </a>
                                     </li>
                                 {% endif %}
                             {% endfor %}
                         </ul>
                     </div>
+                        <div id="chatMessages" class="fixed-bottom" style="margin-bottom: -400px; width: 800px">
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                <div class="card">
+                                    <div class="card-header" id="chatWithName">Chat</div>
+                                    <div class="card-body height3">
+                                        <ul class="chat-list" id="thisIsTheChat" style="max-height: 600px; overflow: auto">
+                                        </ul>
+                                    </div>
+                                </div>
+                                <form class="search" id="send_message">
+                                    <input class="search_input" style="width: 100%" type="text" id="comment_content">
+                                </form>
+                                <script>
+                                    $("#send_message").on('submit', function (e) {
+                                        e.preventDefault();
+
+                                        $.ajax({
+                                            type: 'POST',
+                                            url: "{% url 'posts:send_message' %}",
+                                            data: { current: current_user_id,
+                                                    friend: current_friend_id,
+                                                    text: $("#comment_content").val()
+                                            },
+                                            dataType: "json",
+                                            success: function (data) {
+                                                $("#comment_content").val('')
+                                                $("#thisIsTheChat").append(data);
+                                                $("#thisIsTheChat").scrollTop($("#thisIsTheChat").prop('scrollHeight'))
+                                            }
+                                        })
+                                    })
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {% endif %}
-            </div>
         </div>
     </body>
 </html>
