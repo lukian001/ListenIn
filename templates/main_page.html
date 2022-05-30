@@ -140,11 +140,8 @@
                                                     <ul class="list-group list-group-flush" id="{{ post.slug }}comms">
                                                         {% for comment in post.comment_set.all %}
                                                             <li>
-                                                                <p><a style="color: gray" class = "text-gray" href="{% url 'accounts:user_account' username=comment.owner.username %}"> {{ comment.owner.get_full_name }} </a> posted:</p>
+                                                                <p><a style="color: gray" class = "text-gray" href="{% url 'accounts:user_account' username=comment.owner.username %}"> {{ comment.owner.get_full_name }} </a> commented:</p>
                                                                 {{ comment.text }}
-                                                                <p class = "small"><small class="text-muted">
-                                                                    {{ comment.date|timezone:"Europe/Bucharest" }}
-                                                                </small></p>
                                                             </li>
                                                         {% endfor %}
                                                     </ul>

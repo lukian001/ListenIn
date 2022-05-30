@@ -73,7 +73,7 @@ def user_view(request, username):
 
 def logout_view(request):
     logout(request)
-    return redirect('accounts:login')
+    return redirect('homepage')
 
 
 def add_friend(request, user_to_username):

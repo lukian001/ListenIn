@@ -1,7 +1,7 @@
 {% extends 'base_layout.html' %}
 
 {% block content %}
-    <h1> Sign Up </h1>
+    <h2 style="color:white;font-family:Monaco, monospace;margin-top:15px;"> Create your own account</h2>
     <form class = "site-form" action = "{% url 'accounts:signup' %}" method="post">
         {% csrf_token %}
         {{ signup_form }}
