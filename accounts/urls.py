@@ -5,9 +5,9 @@ app_name = 'accounts'
 
 urlpatterns = [
     path('<username>/', views.user_view, name="user_account"),
-    path('login/', views.login_view, name="login"),
+    path('login', views.login_view, name="login"),
     path('signup/', views.register_view, name="signup"),
-    path('logout/', views.logout_view, name="logout"),
+    path('logout', views.logout_view, name="logout"),
     path('<username>/change_user/', views.change_user, name="change_user"),
     path('<username>/liked_posts/', views.liked_posts, name="liked_posts"),
     path('add_friend/<user_to_username>', views.add_friend, name="add_friend"),
