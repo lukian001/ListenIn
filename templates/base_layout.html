@@ -498,12 +498,10 @@
                                             <p id="{{ friend.id }}messages">See messages</p>
                                                 <script>
                                                     $("#{{ friend.id }}messages").on("click", function() {
-                                                        if($("#chatMessages").css('margin-bottom').localeCompare("-400")) {
-                                                            $("#chatMessages").css("margin-bottom", "10");
+                                                        if (targetDiv.style.display !== "none") {
+                                                            targetDiv.style.display = "none";
                                                         } else {
-                                                            if($("#chatMessages").css('margin-bottom').localeCompare("10")) {
-                                                                $("#chatMessages").css("margin-bottom", "-400");
-                                                            }
+                                                            targetDiv.style.display = "block";
                                                         }
                                                         $("#chatWithName").text("Chatting with {{ friend.get_full_name }}");
                                                         current_user_id = "{{ request.user.id }}"
@@ -520,6 +518,7 @@
                                                                 $("#thisIsTheChat").html(data);
                                                             }
                                                         })
+                                                        $("#thisIsTheChat").scrollTop($("#thisIsTheChat").prop('scrollHeight'))
                                                     })
                                                 </script>
                                             </div>
@@ -528,7 +527,7 @@
                             {% endfor %}
                         </ul>
                     </div>
-                        <div id="chatMessages" class="fixed-bottom" style="margin-bottom: -400px; width: 800px">
+                        <div id="chatMessages" class="fixed-bottom" class="fixed-bottom" style="margin-bottom: 60px; width: 800px; display:none;">
                         <div class="row">
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                                 <div class="card">
@@ -566,6 +565,23 @@
                     </div>
                 </div>
                 {% endif %}
+{#            <div style="position:fixed;bottom:0;width:100%;line-height:2">#}
+{#                <button style="margin-left:25px;width:250px;text-align:left;padding-left:30px;background-color:#17202b;border:1px solid #a8a899;border-radius:20px;" type="button" id="bos" class="btn btn-primary">Chat#}
+{#                    <span style="background-color:green;border-radius:30px;float:right;" class="badge badge-pill badge-success">&nbsp;</span>#}
+{#                </button>#}
+{#            </div>#}
+            <script>
+                const targetDiv = document.getElementById("chatMessages");
+                const btn = document.getElementById("bos");
+                btn.onclick = function () {
+                    if (targetDiv.style.display !== "none") {
+                        targetDiv.style.display = "none";
+                    } else {
+                        targetDiv.style.display = "block";
+                    }
+                    $("#thisIsTheChat").scrollTop($("#thisIsTheChat").prop('scrollHeight'))
+                };
+            </script>
         </div>
     </body>
 </html>

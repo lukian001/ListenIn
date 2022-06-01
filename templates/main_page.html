@@ -209,12 +209,12 @@
 
     <div class="modal fade" id="createPostModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
+            <div class="modal-content  bg-blackk">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Create post</h5>
+                    <h5 style="color: darkgray" class="modal-title" id="exampleModalLongTitle">Create post</h5>
                 </div>
                 <div class="modal-body">
-                    <form class="create-post" action="{% url 'posts:create_post' %}" method="post" id="create-post-form" enctype="multipart/form-data">
+                    <form class="site-form" action="{% url 'posts:create_post' %}" method="post" id="create-post-form" enctype="multipart/form-data">
                         {% csrf_token %}
                         {{ post_form }}
                     </form>
